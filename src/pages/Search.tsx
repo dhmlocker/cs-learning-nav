@@ -62,9 +62,7 @@ export default function Search() {
               }`}
             >
               {tab.label}
-              {typeCounts[tab.key] > 0 && (
-                <span className="ml-1 opacity-70">({typeCounts[tab.key]})</span>
-              )}
+              <span className="ml-1 opacity-70">({typeCounts[tab.key]})</span>
             </button>
           ))}
         </div>
