@@ -1,6 +1,9 @@
 import { useParams, Link } from 'react-router-dom'
 import { courses, tools, projects, jobs } from '../data'
 import { DIFFICULTY_COLORS } from '../utils/filter'
+import DetailHeader from '../components/DetailHeader'
+import QuestionList from '../components/QuestionList'
+import RelatedSection from '../components/RelatedSection'
 
 export default function CourseDetail() {
   const { id } = useParams<{ id: string }>()
@@ -17,104 +20,48 @@ export default function CourseDetail() {
     )
   }
 
-  const relatedTools = tools.filter((t) =>
-    course.relatedTools.includes(t.id)
-  )
+  const relatedTools = tools.filter((t) => course.relatedTools.includes(t.id))
   const relatedProjects = projects.filter((p) => course.relatedProjects.includes(p.id))
   const relatedJobs = jobs.filter((j) => course.relatedJobs.includes(j.id))
 
+  const toolItems = relatedTools.map((t) => ({ id: t.id, label: t.name, to: `/tools/${t.id}` }))
+  const projectItems = relatedProjects.map((p) => ({ id: p.id, label: p.title, to: `/projects/${p.id}` }))
+  const jobItems = relatedJobs.map((j) => ({ id: j.id, label: j.title, to: `/jobs/${j.id}` }))
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <div className="pb-3 mb-6 border-b border-gray-100">
-        <Link to="/courses" className="text-sm text-gray-500 hover:text-blue-600 transition-colors">
-          ← 返回课程列表
-        </Link>
-      </div>
+      <DetailHeader
+        returnTo="/courses"
+        returnLabel="返回课程列表"
+        title={course.title}
+        description={course.description}
+        tags={course.tags}
+        badges={
+          <div className="flex items-center gap-3 mb-3">
+            <span className={`text-xs px-2 py-0.5 rounded ${DIFFICULTY_COLORS[course.difficulty]}`}>
+              {course.difficulty}
+            </span>
+            <span className="text-xs text-gray-400">{course.category}</span>
+          </div>
+        }
+      />
 
-      <div className="mt-2">
-        <div className="flex items-center gap-3 mb-3">
-          <span className={`text-xs px-2 py-0.5 rounded ${DIFFICULTY_COLORS[course.difficulty]}`}>
-            {course.difficulty}
-          </span>
-          <span className="text-xs text-gray-400">{course.category}</span>
-        </div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">{course.title}</h1>
-        <p className="text-gray-500">{course.description}</p>
-
-        <div className="flex flex-wrap gap-1 mt-3">
-          {course.tags.map((t) => (
-            <span key={t} className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">{t}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* 面试问题 */}
       {course.interviewQuestions && course.interviewQuestions.length > 0 && (
-        <section className="mt-8">
-          <h2 className="text-base font-semibold text-gray-800 mb-3">常见面试问题</h2>
-          <ul className="space-y-2">
-            {course.interviewQuestions.map((q, i) => (
-              <li key={i} className="flex gap-2 text-sm text-gray-600">
-                <span className="text-blue-400 font-medium shrink-0">{i + 1}.</span>
-                {q}
-              </li>
-            ))}
-          </ul>
-        </section>
+        <QuestionList title="常见面试问题" items={course.interviewQuestions} />
       )}
 
-      {/* 关联内容 */}
-      {relatedTools.length > 0 && (
-        <section className="mt-8 border-t border-gray-100 pt-6">
-          <h2 className="text-base font-semibold text-gray-800 mb-3">相关工具</h2>
-          <div className="flex flex-wrap gap-2">
-            {relatedTools.map((t) => (
-              <Link
-                key={t.id}
-                to={`/tools/${t.id}`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-600 hover:border-blue-300 hover:text-blue-600 transition-colors"
-              >
-                {t.name}
-              </Link>
-            ))}
-          </div>
-        </section>
+      {toolItems.length > 0 && (
+        <RelatedSection
+          title="相关工具"
+          items={toolItems}
+          className="mt-8 border-t border-gray-100 pt-6"
+        />
       )}
-
-      {/* 相关项目 */}
-      {relatedProjects.length > 0 && (
-        <section className="mt-4">
-          <h2 className="text-base font-semibold text-gray-800 mb-3">相关项目</h2>
-          <div className="flex flex-wrap gap-2">
-            {relatedProjects.map((p) => (
-              <Link
-                key={p.id}
-                to={`/projects/${p.id}`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-600 hover:border-blue-300 hover:text-blue-600 transition-colors"
-              >
-                {p.title}
-              </Link>
-            ))}
-          </div>
-        </section>
+      {projectItems.length > 0 && (
+        <RelatedSection title="相关项目" items={projectItems} />
       )}
-
-      {/* 相关岗位 */}
-      {relatedJobs.length > 0 && (
-        <section className="mt-4 mb-4">
-          <h2 className="text-base font-semibold text-gray-800 mb-3">相关岗位</h2>
-          <div className="flex flex-wrap gap-2">
-            {relatedJobs.map((j) => (
-              <Link
-                key={j.id}
-                to={`/jobs/${j.id}`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-600 hover:border-blue-300 hover:text-blue-600 transition-colors"
-              >
-                {j.title}
-              </Link>
-            ))}
-          </div>
-        </section>
+      {jobItems.length > 0 && (
+        <RelatedSection title="相关岗位" items={jobItems} />
       )}
     </div>
   )

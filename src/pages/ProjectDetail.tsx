@@ -1,6 +1,9 @@
 import { useParams, Link } from 'react-router-dom'
 import { projects, courses, tools, jobs } from '../data'
 import { DIFFICULTY_COLORS } from '../utils/filter'
+import DetailHeader from '../components/DetailHeader'
+import QuestionList from '../components/QuestionList'
+import RelatedSection from '../components/RelatedSection'
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>()
@@ -18,67 +21,39 @@ export default function ProjectDetail() {
   }
 
   const relatedCourses = courses.filter((c) => project.relatedCourses.includes(c.id))
-  const relatedTools = tools.filter((t) =>
-    project.relatedTools.includes(t.id)
-  )
+  const relatedTools = tools.filter((t) => project.relatedTools.includes(t.id))
   const relatedJobs = jobs.filter((j) => project.relatedJobs.includes(j.id))
+
+  const courseItems = relatedCourses.map((c) => ({ id: c.id, label: c.title, to: `/courses/${c.id}` }))
+  const toolItems = relatedTools.map((t) => ({ id: t.id, label: t.name, to: `/tools/${t.id}` }))
+  const jobItems = relatedJobs.map((j) => ({ id: j.id, label: j.title, to: `/jobs/${j.id}` }))
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <div className="pb-3 mb-6 border-b border-gray-100">
-        <Link to="/projects" className="text-sm text-gray-500 hover:text-blue-600 transition-colors">
-          ← 返回项目列表
-        </Link>
-      </div>
+      <DetailHeader
+        returnTo="/projects"
+        returnLabel="返回项目列表"
+        title={project.title}
+        description={project.description}
+        tags={project.tags}
+        badges={
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-xs text-gray-400">{project.category}</span>
+            <span className={`text-xs px-2 py-0.5 rounded ${DIFFICULTY_COLORS[project.difficulty]}`}>
+              {project.difficulty}
+            </span>
+          </div>
+        }
+      />
 
-      <div className="mt-2">
-        <div className="flex items-center gap-3 mb-3">
-          <span className="text-xs text-gray-400">{project.category}</span>
-          <span className={`text-xs px-2 py-0.5 rounded ${DIFFICULTY_COLORS[project.difficulty]}`}>
-            {project.difficulty}
-          </span>
-        </div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">{project.title}</h1>
-        <p className="text-gray-500">{project.description}</p>
-
-        <div className="flex flex-wrap gap-1 mt-3">
-          {project.tags.map((t) => (
-            <span key={t} className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">{t}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* 项目亮点 */}
       {project.highlights && project.highlights.length > 0 && (
-        <section className="mt-8">
-          <h2 className="text-base font-semibold text-gray-800 mb-3">项目亮点</h2>
-          <ul className="space-y-1.5">
-            {project.highlights.map((h, i) => (
-              <li key={i} className="flex gap-2 text-sm text-gray-600">
-                <span className="text-green-400 font-medium shrink-0">{i + 1}.</span>
-                {h}
-              </li>
-            ))}
-          </ul>
-        </section>
+        <QuestionList title="项目亮点" items={project.highlights} colorClass="text-green-400" />
       )}
 
-      {/* 可扩展点 */}
       {project.extensions && project.extensions.length > 0 && (
-        <section className="mt-6">
-          <h2 className="text-base font-semibold text-gray-800 mb-3">可扩展点</h2>
-          <ul className="space-y-1.5">
-            {project.extensions.map((e, i) => (
-              <li key={i} className="flex gap-2 text-sm text-gray-600">
-                <span className="text-yellow-400 font-medium shrink-0">{i + 1}.</span>
-                {e}
-              </li>
-            ))}
-          </ul>
-        </section>
+        <QuestionList title="可扩展点" items={project.extensions} colorClass="text-yellow-400" className="mt-6" />
       )}
 
-      {/* 面试讲法 */}
       {project.interviewTalkingPoints && (
         <section className="mt-6">
           <h2 className="text-base font-semibold text-gray-800 mb-2">面试讲法</h2>
@@ -88,58 +63,18 @@ export default function ProjectDetail() {
         </section>
       )}
 
-      {/* 关联内容 */}
-      {relatedCourses.length > 0 && (
-        <section className="mt-6 border-t border-gray-100 pt-6">
-          <h2 className="text-base font-semibold text-gray-800 mb-3">相关课程</h2>
-          <div className="flex flex-wrap gap-2">
-            {relatedCourses.map((c) => (
-              <Link
-                key={c.id}
-                to={`/courses/${c.id}`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-600 hover:border-blue-300 hover:text-blue-600 transition-colors"
-              >
-                {c.title}
-              </Link>
-            ))}
-          </div>
-        </section>
+      {courseItems.length > 0 && (
+        <RelatedSection
+          title="相关课程"
+          items={courseItems}
+          className="mt-6 border-t border-gray-100 pt-6"
+        />
       )}
-
-      {/* 相关工具 */}
-      {relatedTools.length > 0 && (
-        <section className="mt-4">
-          <h2 className="text-base font-semibold text-gray-800 mb-3">相关工具</h2>
-          <div className="flex flex-wrap gap-2">
-            {relatedTools.map((t) => (
-              <Link
-                key={t.id}
-                to={`/tools/${t.id}`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-600 hover:border-blue-300 hover:text-blue-600 transition-colors"
-              >
-                {t.name}
-              </Link>
-            ))}
-          </div>
-        </section>
+      {toolItems.length > 0 && (
+        <RelatedSection title="相关工具" items={toolItems} />
       )}
-
-      {/* 相关岗位 */}
-      {relatedJobs.length > 0 && (
-        <section className="mt-4 mb-4">
-          <h2 className="text-base font-semibold text-gray-800 mb-3">相关岗位</h2>
-          <div className="flex flex-wrap gap-2">
-            {relatedJobs.map((j) => (
-              <Link
-                key={j.id}
-                to={`/jobs/${j.id}`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-600 hover:border-blue-300 hover:text-blue-600 transition-colors"
-              >
-                {j.title}
-              </Link>
-            ))}
-          </div>
-        </section>
+      {jobItems.length > 0 && (
+        <RelatedSection title="相关岗位" items={jobItems} className="mt-4 mb-4" />
       )}
     </div>
   )
