@@ -11,6 +11,7 @@ import Jobs from './pages/Jobs'
 import JobDetail from './pages/JobDetail'
 import Paths from './pages/Paths'
 import PathDetail from './pages/PathDetail'
+import Search from './pages/Search'
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/jobs/:id" element={<JobDetail />} />
         <Route path="/paths" element={<Paths />} />
         <Route path="/paths/:id" element={<PathDetail />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </Layout>
   )

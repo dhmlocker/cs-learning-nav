@@ -23,6 +23,9 @@ export default function Home() {
           <Link to="/paths" className="px-5 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
             查看学习路径
           </Link>
+          <Link to="/search" className="px-5 py-2 border border-gray-300 rounded-lg text-sm text-gray-500 hover:bg-gray-50 transition-colors">
+            搜索全站
+          </Link>
         </div>
       </section>
 
