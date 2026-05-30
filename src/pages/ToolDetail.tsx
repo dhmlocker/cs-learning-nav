@@ -21,11 +21,13 @@ export default function ToolDetail() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <Link to="/tools" className="text-sm text-gray-400 hover:text-blue-600 transition-colors">
-        ← 返回工具列表
-      </Link>
+      <div className="pb-3 mb-6 border-b border-gray-100">
+        <Link to="/tools" className="text-sm text-gray-500 hover:text-blue-600 transition-colors">
+          ← 返回工具列表
+        </Link>
+      </div>
 
-      <div className="mt-4">
+      <div className="mt-2">
         <div className="flex items-center gap-3 mb-3">
           <span className="text-xs text-gray-400">{tool.category}</span>
           <span className={`text-xs px-2 py-0.5 rounded ${DIFFICULTY_COLORS[tool.difficulty]}`}>
@@ -57,9 +59,9 @@ export default function ToolDetail() {
         </section>
       )}
 
-      {/* 相关课程 */}
+      {/* 关联内容 */}
       {relatedCourses.length > 0 && (
-        <section className="mt-8">
+        <section className="mt-8 border-t border-gray-100 pt-6">
           <h2 className="text-base font-semibold text-gray-800 mb-3">相关课程</h2>
           <div className="flex flex-wrap gap-2">
             {relatedCourses.map((c) => (

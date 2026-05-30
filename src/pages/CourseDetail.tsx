@@ -25,11 +25,13 @@ export default function CourseDetail() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <Link to="/courses" className="text-sm text-gray-400 hover:text-blue-600 transition-colors">
-        ← 返回课程列表
-      </Link>
+      <div className="pb-3 mb-6 border-b border-gray-100">
+        <Link to="/courses" className="text-sm text-gray-500 hover:text-blue-600 transition-colors">
+          ← 返回课程列表
+        </Link>
+      </div>
 
-      <div className="mt-4">
+      <div className="mt-2">
         <div className="flex items-center gap-3 mb-3">
           <span className={`text-xs px-2 py-0.5 rounded ${DIFFICULTY_COLORS[course.difficulty]}`}>
             {course.difficulty}
@@ -61,9 +63,9 @@ export default function CourseDetail() {
         </section>
       )}
 
-      {/* 相关工具 */}
+      {/* 关联内容 */}
       {relatedTools.length > 0 && (
-        <section className="mt-8">
+        <section className="mt-8 border-t border-gray-100 pt-6">
           <h2 className="text-base font-semibold text-gray-800 mb-3">相关工具</h2>
           <div className="flex flex-wrap gap-2">
             {relatedTools.map((t) => (
@@ -81,7 +83,7 @@ export default function CourseDetail() {
 
       {/* 相关项目 */}
       {relatedProjects.length > 0 && (
-        <section className="mt-8">
+        <section className="mt-4">
           <h2 className="text-base font-semibold text-gray-800 mb-3">相关项目</h2>
           <div className="flex flex-wrap gap-2">
             {relatedProjects.map((p) => (
@@ -99,7 +101,7 @@ export default function CourseDetail() {
 
       {/* 相关岗位 */}
       {relatedJobs.length > 0 && (
-        <section className="mt-8 mb-4">
+        <section className="mt-4 mb-4">
           <h2 className="text-base font-semibold text-gray-800 mb-3">相关岗位</h2>
           <div className="flex flex-wrap gap-2">
             {relatedJobs.map((j) => (
