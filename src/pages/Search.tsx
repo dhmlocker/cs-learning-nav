@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { searchAll, GROUP_LABELS, type SearchResult } from '../utils/search'
 
@@ -48,7 +49,7 @@ export default function Search() {
           {GROUP_ORDER.map((group) => {
             const items = results[group]
             if (items.length === 0) return null
-            return <ResultGroup key={group} group={group} items={items} />
+            return <ResultGroup key={group} group={group} items={items} keyword={keyword} />
           })}
         </div>
       )}
@@ -56,7 +57,27 @@ export default function Search() {
   )
 }
 
-function ResultGroup({ group, items }: { group: string; items: SearchResult[] }) {
+function Highlight({ text, keyword }: { text: string; keyword: string }) {
+  if (!keyword.trim()) return <>{text}</>
+
+  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const regex = new RegExp(`(${escaped})`, 'gi')
+  const parts = text.split(regex)
+
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.toLowerCase() === keyword.toLowerCase() ? (
+          <mark key={i} className="bg-yellow-100 text-gray-900 rounded-sm">{part}</mark>
+        ) : (
+          <Fragment key={i}>{part}</Fragment>
+        )
+      )}
+    </>
+  )
+}
+
+function ResultGroup({ group, items, keyword }: { group: string; items: SearchResult[]; keyword: string }) {
   return (
     <section>
       <h2 className="text-sm font-semibold text-gray-700 mb-2">
@@ -71,17 +92,23 @@ function ResultGroup({ group, items }: { group: string; items: SearchResult[] })
             className="block p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-sm transition-all"
           >
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-sm font-medium text-blue-600">{item.title}</span>
+              <span className="text-sm font-medium text-blue-600">
+                <Highlight text={item.title} keyword={keyword} />
+              </span>
               {item.category && (
-                <span className="text-xs text-gray-400">{item.category}</span>
+                <span className="text-xs text-gray-400">
+                  <Highlight text={item.category} keyword={keyword} />
+                </span>
               )}
             </div>
-            <p className="text-xs text-gray-500 line-clamp-2">{item.description}</p>
+            <p className="text-xs text-gray-500 line-clamp-2">
+              <Highlight text={item.description} keyword={keyword} />
+            </p>
             {item.tags.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {item.tags.map((t) => (
                   <span key={t} className="text-xs bg-gray-100 text-gray-400 px-1.5 py-0.5 rounded">
-                    {t}
+                    <Highlight text={t} keyword={keyword} />
                   </span>
                 ))}
               </div>
