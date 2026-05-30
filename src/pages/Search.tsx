@@ -1,12 +1,22 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { searchAll, GROUP_LABELS, type SearchResult } from '../utils/search'
 
 const GROUP_ORDER = ['courses', 'tools', 'projects', 'jobs', 'paths'] as const
 
+const FILTER_TABS = [
+  { key: 'all', label: '全部' },
+  { key: 'courses', label: '课程' },
+  { key: 'tools', label: '工具' },
+  { key: 'projects', label: '项目' },
+  { key: 'jobs', label: '岗位' },
+  { key: 'paths', label: '学习路径' },
+] as const
+
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams()
   const keyword = searchParams.get('q') || ''
+  const [filter, setFilter] = useState('all')
 
   const setKeyword = (value: string) => {
     if (value.trim()) {
@@ -19,6 +29,13 @@ export default function Search() {
   const results = searchAll(keyword)
   const hasResults = GROUP_ORDER.some((k) => results[k].length > 0)
 
+  const typeCounts: Record<string, number> = {
+    all: GROUP_ORDER.reduce((sum, k) => sum + results[k].length, 0),
+    ...Object.fromEntries(GROUP_ORDER.map((k) => [k, results[k].length])),
+  }
+
+  const showTabs = keyword.trim() !== ''
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <h1 className="text-xl font-bold text-gray-900 mb-4">全站搜索</h1>
@@ -28,9 +45,30 @@ export default function Search() {
         placeholder="搜索课程、工具、项目、岗位、学习路径…"
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
-        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 mb-6"
+        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
         autoFocus
       />
+
+      {showTabs && (
+        <div className="flex flex-wrap gap-1.5 mb-6">
+          {FILTER_TABS.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setFilter(tab.key)}
+              className={`px-3 py-1 text-xs rounded-full transition-colors ${
+                filter === tab.key
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+              }`}
+            >
+              {tab.label}
+              {typeCounts[tab.key] > 0 && (
+                <span className="ml-1 opacity-70">({typeCounts[tab.key]})</span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
 
       {!keyword.trim() && (
         <p className="text-center text-gray-400 text-sm mt-12">
@@ -44,9 +82,16 @@ export default function Search() {
         </p>
       )}
 
+      {keyword.trim() && hasResults && filter !== 'all' && results[filter].length === 0 && (
+        <p className="text-center text-gray-400 text-sm mt-12">
+          {GROUP_LABELS[filter]} 分类暂无匹配结果
+        </p>
+      )}
+
       {hasResults && (
         <div className="space-y-6">
           {GROUP_ORDER.map((group) => {
+            if (filter !== 'all' && filter !== group) return null
             const items = results[group]
             if (items.length === 0) return null
             return <ResultGroup key={group} group={group} items={items} keyword={keyword} />
