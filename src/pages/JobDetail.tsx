@@ -18,7 +18,7 @@ export default function JobDetail() {
 
   const relatedCourses = courses.filter((c) => job.relatedCourses.includes(c.id))
   const relatedTools = tools.filter((t) =>
-    job.relatedTools.some((ref) => ref.toLowerCase() === t.name.toLowerCase())
+    job.relatedTools.includes(t.id)
   )
   const relatedProjects = projects.filter((p) =>
     (job.relatedProjects ?? []).includes(p.id)

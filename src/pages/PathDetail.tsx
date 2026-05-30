@@ -19,7 +19,7 @@ export default function PathDetail() {
 
   const relatedCourses = courses.filter((c) => (path.relatedCourses ?? []).includes(c.id))
   const relatedTools = tools.filter((t) =>
-    (path.relatedTools ?? []).some((ref) => ref.toLowerCase() === t.name.toLowerCase())
+    (path.relatedTools ?? []).includes(t.id)
   )
   const relatedProjects = projects.filter((p) => (path.relatedProjects ?? []).includes(p.id))
   const relatedJobs = jobs.filter((j) => (path.relatedJobs ?? []).includes(j.id))
