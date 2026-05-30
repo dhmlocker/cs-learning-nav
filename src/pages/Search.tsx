@@ -1,11 +1,20 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { searchAll, GROUP_LABELS, type SearchResult } from '../utils/search'
 
 const GROUP_ORDER = ['courses', 'tools', 'projects', 'jobs', 'paths'] as const
 
 export default function Search() {
-  const [keyword, setKeyword] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const keyword = searchParams.get('q') || ''
+
+  const setKeyword = (value: string) => {
+    if (value.trim()) {
+      setSearchParams({ q: value }, { replace: true })
+    } else {
+      setSearchParams({}, { replace: true })
+    }
+  }
+
   const results = searchAll(keyword)
   const hasResults = GROUP_ORDER.some((k) => results[k].length > 0)
 
