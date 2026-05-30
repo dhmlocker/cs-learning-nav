@@ -14,7 +14,7 @@ export const paths: LearningPath[] = [
       { name: '工程实践', items: ['Git 版本控制', 'Docker 容器化', '项目实战'] },
     ],
     relatedCourses: ['c1', 'c2', 'c3', 'c4'],
-    relatedTools: ['git', 'docker', 'mysql'],
+    relatedTools: ['t1', 't3', 't5'],
     relatedProjects: ['p2'],
     relatedJobs: ['j1'],
     interviewQuestions: [
@@ -36,15 +36,20 @@ export const paths: LearningPath[] = [
       { name: '模型与应用', items: ['机器学习', '深度学习', 'NLP/CV 应用'] },
     ],
     relatedCourses: ['c5'],
-    relatedTools: ['python', 'pytorch'],
+    relatedTools: ['t4', 't11'],
     relatedProjects: ['p4'],
     relatedJobs: ['j5'],
+    interviewQuestions: [
+      '简述一个完整的机器学习项目流程',
+      '如何处理数据不平衡的问题？',
+      '特征工程有哪些常用方法？',
+    ],
   },
   {
     id: 'lp3',
     title: '全栈开发学习路径',
     description: '前端 + 后端全栈能力培养',
-    targetJob: '前端/后端开发工程师',
+    targetJob: '后端开发工程师',
     tags: ['全栈', 'React', 'Node.js'],
     difficulty: '基础',
     stages: [
@@ -53,7 +58,7 @@ export const paths: LearningPath[] = [
       { name: '综合实战', items: ['全栈项目', '部署运维', '性能优化'] },
     ],
     relatedCourses: ['c2', 'c4'],
-    relatedTools: ['git', 'vscode', 'mysql'],
+    relatedTools: ['t1', 't2', 't5'],
     relatedProjects: ['p5'],
     relatedJobs: ['j1', 'j2'],
     interviewQuestions: [

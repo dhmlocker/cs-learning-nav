@@ -8,7 +8,7 @@ export const courses: Course[] = [
     category: '专业核心',
     tags: ['数据结构', '算法基础', 'C++'],
     difficulty: '基础',
-    relatedTools: ['git', 'gcc'],
+    relatedTools: ['t1', 't7'],
     relatedProjects: ['p1'],
     relatedJobs: ['j1', 'j2'],
     interviewQuestions: [
@@ -24,7 +24,7 @@ export const courses: Course[] = [
     category: '专业核心',
     tags: ['网络', 'TCP/IP', 'HTTP'],
     difficulty: '基础',
-    relatedTools: ['wireshark'],
+    relatedTools: ['t8'],
     relatedProjects: ['p2'],
     relatedJobs: ['j1', 'j3'],
     interviewQuestions: [
@@ -40,9 +40,14 @@ export const courses: Course[] = [
     category: '专业核心',
     tags: ['OS', '进程', '内存', '并发'],
     difficulty: '进阶',
-    relatedTools: ['linux', 'gcc'],
+    relatedTools: ['t9', 't7'],
     relatedProjects: ['p3'],
     relatedJobs: ['j1', 'j4'],
+    interviewQuestions: [
+      '进程和线程的区别是什么？',
+      '什么是死锁？死锁产生的四个必要条件？',
+      '虚拟内存和分页机制的原理？',
+    ],
   },
   {
     id: 'c4',
@@ -51,9 +56,14 @@ export const courses: Course[] = [
     category: '专业核心',
     tags: ['数据库', 'SQL', 'MySQL'],
     difficulty: '基础',
-    relatedTools: ['mysql', 'postgresql'],
+    relatedTools: ['t5', 't10'],
     relatedProjects: ['p2'],
     relatedJobs: ['j1', 'j2'],
+    interviewQuestions: [
+      '数据库事务的 ACID 特性是什么？',
+      '索引的底层数据结构和优化策略？',
+      'SQL 与 NoSQL 数据库的对比和选择？',
+    ],
   },
   {
     id: 'c5',
@@ -62,8 +72,13 @@ export const courses: Course[] = [
     category: '人工智能',
     tags: ['ML', 'Python', '深度学习'],
     difficulty: '进阶',
-    relatedTools: ['python', 'pytorch'],
+    relatedTools: ['t4', 't11'],
     relatedProjects: ['p4'],
     relatedJobs: ['j5'],
+    interviewQuestions: [
+      '监督学习和无监督学习的区别是什么？',
+      '什么是过拟合？如何防止过拟合？',
+      '解释 bias-variance tradeoff',
+    ],
   },
 ]
