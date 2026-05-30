@@ -42,7 +42,10 @@ cs-learning-nav/
     ├── index.css                # Tailwind 基础样式
     ├── components/
     │   ├── Layout.tsx           # 公共布局（导航栏 + 页脚）
-    │   └── SearchFilter.tsx     # 通用搜索筛选组件
+    │   ├── SearchFilter.tsx     # 通用搜索筛选组件
+    │   ├── DetailHeader.tsx     # 通用详情页头部
+    │   ├── RelatedSection.tsx   # 通用关联内容区域
+    │   └── QuestionList.tsx     # 通用问答列表
     ├── pages/
     │   ├── Home.tsx             # 首页
     │   ├── Courses.tsx          # 课程列表页
@@ -54,18 +57,20 @@ cs-learning-nav/
     │   ├── Jobs.tsx             # 岗位列表页
     │   ├── JobDetail.tsx        # 岗位详情页
     │   ├── Paths.tsx            # 学习路径列表页
-    │   └── PathDetail.tsx       # 学习路径详情页
+    │   ├── PathDetail.tsx       # 学习路径详情页
+    │   └── Search.tsx           # 全站搜索页
     ├── data/
     │   ├── index.ts             # 统一导出
-    │   ├── courses.ts           # 5 门课程
-    │   ├── tools.ts             # 6 个工具
-    │   ├── projects.ts          # 5 个项目
-    │   ├── jobs.ts              # 5 个岗位
+    │   ├── courses.ts           # 10 门课程
+    │   ├── tools.ts             # 15 个工具
+    │   ├── projects.ts          # 10 个项目
+    │   ├── jobs.ts              # 10 个岗位
     │   └── paths.ts             # 3 条学习路径
     ├── types/
     │   └── index.ts             # Course/Tool/Project/Job/LearningPath 类型
     └── utils/
-        └── filter.ts            # 搜索匹配、难度颜色、去重工具
+        ├── filter.ts            # 搜索匹配、难度颜色、去重工具
+        └── search.ts            # 全站搜索（跨五类数据检索）
 ```
 
 ## 本地运行
@@ -103,6 +108,7 @@ npm run preview
 | `/jobs/:id` | JobDetail | 岗位详情，含核心能力/典型任务/面试题 + 关联 |
 | `/paths` | Paths | 学习路径列表 |
 | `/paths/:id` | PathDetail | 学习路径详情，含阶段内容 + 关联课程/工具/项目/岗位 |
+| `/search` | Search | 全站搜索，五类数据 + URL 同步 + 关键词高亮 + 类型筛选 |
 
 ## 数据模型
 
@@ -119,7 +125,7 @@ difficulty: '入门' | '基础' | '进阶' | '高级'
 
 // 关联字段
 relatedCourses: string[]
-relatedTools: string[]    // 当前为 name-based 匹配
+relatedTools: string[]    // ID-based 匹配
 relatedProjects: string[]
 relatedJobs: string[]
 
@@ -135,35 +141,49 @@ LearningPath: targetJob, stages, interviewQuestions
 
 | 功能 | 状态 | 说明 |
 |------|------|------|
-| 首页 | 已完成 | 系统定位 + 5 个模块入口 + 3 条推荐路径 |
-| 课程知识库 | 已完成 | 5 门课程，列表 + 搜索筛选 + 详情页 + 交叉跳转 |
-| 工具手册 | 已完成 | 6 个工具，列表 + 搜索筛选 + 详情页 + 交叉跳转 |
-| 项目库 | 已完成 | 5 个项目，列表 + 搜索筛选 + 详情页（亮点/可扩展点/面试讲法） |
-| 岗位地图 | 已完成 | 5 个岗位，列表 + 搜索筛选 + 详情页（核心能力/典型任务/面试题） |
-| 学习路径 | 已完成 | 3 条路径，列表 + 详情页（阶段内容 + 交叉跳转） |
+| 首页 | 已完成 | 系统定位 + 5 个模块入口 + 3 条推荐路径 + 搜索入口 |
+| 课程知识库 | 已完成 | 10 门课程，列表 + 搜索筛选 + 详情页 + 交叉跳转 |
+| 工具手册 | 已完成 | 15 个工具，列表 + 搜索筛选 + 详情页 + 交叉跳转 |
+| 项目库 | 已完成 | 10 个项目，列表 + 搜索筛选 + 详情页（亮点/可扩展点/面试讲法） |
+| 岗位地图 | 已完成 | 10 个岗位，列表 + 搜索筛选 + 详情页（核心能力/典型任务/面试题） |
+| 学习路径 | 已完成 | 3 条路径，列表 + 搜索筛选 + 详情页（阶段内容 + 交叉跳转） |
 | 搜索与筛选 | 已完成 | 关键词 + 分类 + 难度 + 重置，4 个列表页复用 SearchFilter |
-| 关联跳转 | 已完成 | 课程/工具/项目/岗位/路径五向互相导航 |
+| 全站搜索 | 已完成 | /search 跨五类数据检索 + URL 同步 + 高亮 + 类型筛选 |
+| 关联跳转 | 已完成 | 课程/工具/项目/岗位/路径五向互相导航，263 条引用零断裂 |
+| 详情页组件 | 已完成 | DetailHeader / RelatedSection / QuestionList 三个通用组件 |
 | 空字段处理 | 已完成 | 所有可选字段条件渲染，不会报错 |
 | 不存在 ID | 已完成 | 详情页空状态提示 + 返回按钮 |
-| TypeScript | 已完成 | tsc -b 零错误，54 模块构建通过 |
+| TypeScript | 已完成 | tsc -b 零错误，59 模块构建通过 |
+
+## 第三阶段：全站搜索
+
+| 功能 | 状态 | 说明 |
+|------|------|------|
+| /search 页面 | 已完成 | 跨 Courses/Tools/Projects/Jobs/Paths 五类数据搜索 |
+| 搜索范围 | 已完成 | title/name、description、tags、category |
+| URL query 同步 | 已完成 | /search?q=Python 自动填入搜索框，清空后回到 /search |
+| 关键词高亮 | 已完成 | 匹配文本用 `<mark>` 黄色背景高亮，支持中英文 |
+| 类型筛选 | 已完成 | 全部/课程/工具/项目/岗位/学习路径，每类显示数量（含 0） |
+| 空结果提示 | 已完成 | 全局空结果 + 单类型空结果，两种提示文案 |
+| 搜索入口 | 已完成 | 首页"搜索全站"按钮 + 导航栏"搜索"链接 |
+| 验收结果 | 通过 | 无 P1 问题，tsc -b 和 npm run build 均通过 |
 
 **当前不做：** 后端、数据库、登录注册、用户系统、RAG、AI 问答、后台管理。
 
 ## 已知问题
 
-1. **relatedTools 匹配策略不统一**：部分数据使用工具名称引用（如 `gcc`、`pytorch`），而 `relatedCourses`/`relatedProjects`/`relatedJobs` 使用 ID 引用。部分关联工具因数据不完整无法在详情页展示（不报错，仅不显示）。
-2. **无全局 404 页面**：访问无效路由会显示空白内容区（导航栏和页脚依然可见）。
-3. **Paths 列表页无 SearchFilter**：目前仅 3 条路径，暂未接入搜索筛选组件。
+1. **无全局 404 页面**：访问无效路由会显示空白内容区（导航栏和页脚依然可见）。
+2. **筛选状态不随清空重置**：类型筛选在清空关键词后保留上次选择，不影响功能（可手动点"全部"），属体验优化项。
 
 ## 后续规划
 
-- [ ] 统一 relatedTools 为 ID 引用，补充缺失的工具数据条目
+- [x] 统一 relatedTools 为 ID 引用，补充缺失的工具数据条目
+- [x] Paths 列表页接入 SearchFilter
+- [x] 推荐学习路径卡片链接到具体详情页
+- [x] 补充更多课程、工具、项目、岗位、路径数据
+- [x] 抽取通用详情页组件，减少重复代码
+- [x] 增加全局搜索（跨模块关键词检索）
 - [ ] 增加全局 404 页面和通配路由
-- [ ] Paths 列表页接入 SearchFilter
-- [ ] 推荐学习路径卡片链接到具体详情页
-- [ ] 补充更多课程、工具、项目、岗位、路径数据
-- [ ] 抽取通用详情页组件，减少重复代码
-- [ ] 增加全局搜索（跨模块关键词检索）
 - [ ] 增加面包屑导航
 - [ ] 后续接入 RAG 智能问答层
 - [ ] 用户系统与学习进度追踪
