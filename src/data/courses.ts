@@ -10,7 +10,7 @@ export const courses: Course[] = [
     difficulty: '基础',
     relatedTools: ['t1', 't7'],
     relatedProjects: ['p1', 'p7', 'p8', 'p9'],
-    relatedJobs: ['j1', 'j2'],
+    relatedJobs: ['j1', 'j2', 'j7', 'j9', 'j10'],
     interviewQuestions: [
       '数组和链表的区别是什么？',
       '如何判断链表是否有环？',
@@ -26,7 +26,7 @@ export const courses: Course[] = [
     difficulty: '基础',
     relatedTools: ['t8'],
     relatedProjects: ['p2'],
-    relatedJobs: ['j1', 'j3'],
+    relatedJobs: ['j1', 'j3', 'j10'],
     interviewQuestions: [
       'TCP 和 UDP 的区别是什么？',
       '简述 TCP 三次握手和四次挥手过程',
@@ -42,7 +42,7 @@ export const courses: Course[] = [
     difficulty: '进阶',
     relatedTools: ['t9', 't7'],
     relatedProjects: ['p3', 'p10'],
-    relatedJobs: ['j1', 'j4'],
+    relatedJobs: ['j1', 'j4', 'j6'],
     interviewQuestions: [
       '进程和线程的区别是什么？',
       '什么是死锁？死锁产生的四个必要条件？',
@@ -58,7 +58,7 @@ export const courses: Course[] = [
     difficulty: '基础',
     relatedTools: ['t5', 't10', 't14'],
     relatedProjects: ['p2', 'p6', 'p7'],
-    relatedJobs: ['j1', 'j2'],
+    relatedJobs: ['j1', 'j2', 'j7', 'j8', 'j10'],
     interviewQuestions: [
       '数据库事务的 ACID 特性是什么？',
       '索引的底层数据结构和优化策略？',
@@ -74,7 +74,7 @@ export const courses: Course[] = [
     difficulty: '进阶',
     relatedTools: ['t4', 't11'],
     relatedProjects: ['p4', 'p8'],
-    relatedJobs: ['j5'],
+    relatedJobs: ['j5', 'j9'],
     interviewQuestions: [
       '监督学习和无监督学习的区别是什么？',
       '什么是过拟合？如何防止过拟合？',
@@ -90,7 +90,7 @@ export const courses: Course[] = [
     difficulty: '基础',
     relatedTools: [],
     relatedProjects: [],
-    relatedJobs: ['j1', 'j5'],
+    relatedJobs: ['j1', 'j5', 'j9'],
     interviewQuestions: [
       '什么是等价关系和偏序关系？',
       '图的遍历算法有哪些？各有什么特点？',
@@ -106,7 +106,7 @@ export const courses: Course[] = [
     difficulty: '基础',
     relatedTools: ['t4'],
     relatedProjects: ['p4', 'p8'],
-    relatedJobs: ['j5'],
+    relatedJobs: ['j5', 'j8', 'j9'],
     interviewQuestions: [
       '矩阵的秩有什么几何和代数意义？',
       '特征值和特征向量在机器学习中的作用？',
@@ -122,7 +122,7 @@ export const courses: Course[] = [
     difficulty: '基础',
     relatedTools: ['t4'],
     relatedProjects: ['p4', 'p8', 'p10'],
-    relatedJobs: ['j5'],
+    relatedJobs: ['j5', 'j8', 'j9'],
     interviewQuestions: [
       '贝叶斯定理及其在机器学习中的应用？',
       '什么是中心极限定理？为什么重要？',
@@ -138,7 +138,7 @@ export const courses: Course[] = [
     difficulty: '基础',
     relatedTools: ['t1', 't2', 't3'],
     relatedProjects: ['p2', 'p5', 'p6', 'p9'],
-    relatedJobs: ['j1', 'j2'],
+    relatedJobs: ['j1', 'j2', 'j6', 'j7', 'j10'],
     interviewQuestions: [
       '常见设计模式有哪些？举例说明两个',
       '敏捷开发与瀑布模型的区别和适用场景？',
