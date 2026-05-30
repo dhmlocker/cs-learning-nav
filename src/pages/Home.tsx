@@ -54,7 +54,7 @@ export default function Home() {
           ].map((lp) => (
             <Link
               key={lp.id}
-              to="/paths"
+              to={`/paths/${lp.id}`}
               className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
             >
               <div>
