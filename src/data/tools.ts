@@ -8,7 +8,7 @@ export const tools: Tool[] = [
     category: '工程工具',
     tags: ['版本控制', 'GitHub', '协作'],
     difficulty: '入门',
-    relatedCourses: ['c1', 'c2'],
+    relatedCourses: ['c1', 'c2', 'c9'],
     faq: ['git merge 和 git rebase 的区别？', '如何撤销已经 git add 的文件？'],
   },
   {
@@ -18,7 +18,7 @@ export const tools: Tool[] = [
     category: '开发工具',
     tags: ['编辑器', 'IDE', '前端'],
     difficulty: '入门',
-    relatedCourses: [],
+    relatedCourses: ['c9'],
   },
   {
     id: 't3',
@@ -27,7 +27,7 @@ export const tools: Tool[] = [
     category: '部署工具',
     tags: ['容器', '部署', 'DevOps'],
     difficulty: '进阶',
-    relatedCourses: ['c3'],
+    relatedCourses: ['c3', 'c9'],
     faq: ['Docker 镜像和容器的关系是什么？', 'docker-compose 的作用是什么？'],
   },
   {
@@ -37,7 +37,7 @@ export const tools: Tool[] = [
     category: '编程语言',
     tags: ['Python', 'AI', '数据科学'],
     difficulty: '入门',
-    relatedCourses: ['c1', 'c5'],
+    relatedCourses: ['c1', 'c5', 'c7', 'c8'],
   },
   {
     id: 't5',
@@ -64,7 +64,7 @@ export const tools: Tool[] = [
     category: '开发工具',
     tags: ['编译器', 'C', 'C++'],
     difficulty: '基础' as const,
-    relatedCourses: ['c1', 'c3'],
+    relatedCourses: ['c1', 'c3', 'c10'],
   },
   {
     id: 't8',
