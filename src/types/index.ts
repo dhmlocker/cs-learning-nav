@@ -56,8 +56,15 @@ export interface LearningPath {
   title: string
   description: string
   targetJob: string
+  tags?: string[]
+  difficulty?: '入门' | '基础' | '进阶' | '高级'
   stages: {
     name: string
     items: string[]
   }[]
+  relatedCourses?: string[]
+  relatedTools?: string[]
+  relatedProjects?: string[]
+  relatedJobs?: string[]
+  interviewQuestions?: string[]
 }

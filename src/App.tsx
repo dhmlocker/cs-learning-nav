@@ -10,6 +10,7 @@ import ProjectDetail from './pages/ProjectDetail'
 import Jobs from './pages/Jobs'
 import JobDetail from './pages/JobDetail'
 import Paths from './pages/Paths'
+import PathDetail from './pages/PathDetail'
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/jobs" element={<Jobs />} />
         <Route path="/jobs/:id" element={<JobDetail />} />
         <Route path="/paths" element={<Paths />} />
+        <Route path="/paths/:id" element={<PathDetail />} />
       </Routes>
     </Layout>
   )

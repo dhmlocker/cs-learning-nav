@@ -87,7 +87,7 @@ export default function CourseDetail() {
             {relatedProjects.map((p) => (
               <Link
                 key={p.id}
-                to={`/projects`}
+                to={`/projects/${p.id}`}
                 className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-600 hover:border-blue-300 hover:text-blue-600 transition-colors"
               >
                 {p.title}

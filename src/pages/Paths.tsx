@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { paths } from '../data'
 
 export default function Paths() {
@@ -7,7 +8,11 @@ export default function Paths() {
       <p className="text-gray-500 text-sm mb-6">根据不同目标方向组织的阶段化学习路线</p>
       <div className="space-y-6">
         {paths.map((p) => (
-          <div key={p.id} className="bg-white border border-gray-200 rounded-lg p-5">
+          <Link
+            to={`/paths/${p.id}`}
+            key={p.id}
+            className="block bg-white border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow"
+          >
             <h3 className="font-semibold text-gray-800">{p.title}</h3>
             <p className="text-sm text-gray-500 mt-0.5 mb-4">
               {p.description} · 目标岗位：{p.targetJob}
@@ -29,7 +34,7 @@ export default function Paths() {
                 </div>
               ))}
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
