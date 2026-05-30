@@ -9,7 +9,7 @@ export const courses: Course[] = [
     tags: ['数据结构', '算法基础', 'C++'],
     difficulty: '基础',
     relatedTools: ['t1', 't7'],
-    relatedProjects: ['p1'],
+    relatedProjects: ['p1', 'p7', 'p8', 'p9'],
     relatedJobs: ['j1', 'j2'],
     interviewQuestions: [
       '数组和链表的区别是什么？',
@@ -41,7 +41,7 @@ export const courses: Course[] = [
     tags: ['OS', '进程', '内存', '并发'],
     difficulty: '进阶',
     relatedTools: ['t9', 't7'],
-    relatedProjects: ['p3'],
+    relatedProjects: ['p3', 'p10'],
     relatedJobs: ['j1', 'j4'],
     interviewQuestions: [
       '进程和线程的区别是什么？',
@@ -57,7 +57,7 @@ export const courses: Course[] = [
     tags: ['数据库', 'SQL', 'MySQL'],
     difficulty: '基础',
     relatedTools: ['t5', 't10', 't14'],
-    relatedProjects: ['p2'],
+    relatedProjects: ['p2', 'p6', 'p7'],
     relatedJobs: ['j1', 'j2'],
     interviewQuestions: [
       '数据库事务的 ACID 特性是什么？',
@@ -73,7 +73,7 @@ export const courses: Course[] = [
     tags: ['ML', 'Python', '深度学习'],
     difficulty: '进阶',
     relatedTools: ['t4', 't11'],
-    relatedProjects: ['p4'],
+    relatedProjects: ['p4', 'p8'],
     relatedJobs: ['j5'],
     interviewQuestions: [
       '监督学习和无监督学习的区别是什么？',
@@ -105,7 +105,7 @@ export const courses: Course[] = [
     tags: ['线性代数', '矩阵', '向量空间', '特征值'],
     difficulty: '基础',
     relatedTools: ['t4'],
-    relatedProjects: ['p4'],
+    relatedProjects: ['p4', 'p8'],
     relatedJobs: ['j5'],
     interviewQuestions: [
       '矩阵的秩有什么几何和代数意义？',
@@ -121,7 +121,7 @@ export const courses: Course[] = [
     tags: ['概率', '统计', '贝叶斯', '数据科学'],
     difficulty: '基础',
     relatedTools: ['t4'],
-    relatedProjects: ['p4'],
+    relatedProjects: ['p4', 'p8', 'p10'],
     relatedJobs: ['j5'],
     interviewQuestions: [
       '贝叶斯定理及其在机器学习中的应用？',
@@ -137,7 +137,7 @@ export const courses: Course[] = [
     tags: ['软件工程', '设计模式', '敏捷', '测试'],
     difficulty: '基础',
     relatedTools: ['t1', 't2', 't3'],
-    relatedProjects: ['p2', 'p5'],
+    relatedProjects: ['p2', 'p5', 'p6', 'p9'],
     relatedJobs: ['j1', 'j2'],
     interviewQuestions: [
       '常见设计模式有哪些？举例说明两个',

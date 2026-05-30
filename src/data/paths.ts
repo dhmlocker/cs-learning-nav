@@ -15,7 +15,7 @@ export const paths: LearningPath[] = [
     ],
     relatedCourses: ['c1', 'c2', 'c3', 'c4', 'c6', 'c9', 'c10'],
     relatedTools: ['t1', 't3', 't5', 't14'],
-    relatedProjects: ['p2'],
+    relatedProjects: ['p2', 'p6', 'p7', 'p10'],
     relatedJobs: ['j1'],
     interviewQuestions: [
       '进程和线程的区别？',
@@ -37,7 +37,7 @@ export const paths: LearningPath[] = [
     ],
     relatedCourses: ['c5', 'c7', 'c8'],
     relatedTools: ['t4', 't11'],
-    relatedProjects: ['p4'],
+    relatedProjects: ['p4', 'p8'],
     relatedJobs: ['j5'],
     interviewQuestions: [
       '简述一个完整的机器学习项目流程',
@@ -59,7 +59,7 @@ export const paths: LearningPath[] = [
     ],
     relatedCourses: ['c2', 'c4', 'c9'],
     relatedTools: ['t1', 't2', 't5', 't15'],
-    relatedProjects: ['p5'],
+    relatedProjects: ['p5', 'p6', 'p9'],
     relatedJobs: ['j1', 'j2'],
     interviewQuestions: [
       'React/Vue 的生命周期是怎样的？',
