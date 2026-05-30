@@ -56,7 +56,7 @@ export const courses: Course[] = [
     category: '专业核心',
     tags: ['数据库', 'SQL', 'MySQL'],
     difficulty: '基础',
-    relatedTools: ['t5', 't10'],
+    relatedTools: ['t5', 't10', 't14'],
     relatedProjects: ['p2'],
     relatedJobs: ['j1', 'j2'],
     interviewQuestions: [

@@ -14,7 +14,7 @@ export const paths: LearningPath[] = [
       { name: '工程实践', items: ['Git 版本控制', 'Docker 容器化', '项目实战'] },
     ],
     relatedCourses: ['c1', 'c2', 'c3', 'c4', 'c6', 'c9', 'c10'],
-    relatedTools: ['t1', 't3', 't5'],
+    relatedTools: ['t1', 't3', 't5', 't14'],
     relatedProjects: ['p2'],
     relatedJobs: ['j1'],
     interviewQuestions: [
@@ -58,7 +58,7 @@ export const paths: LearningPath[] = [
       { name: '综合实战', items: ['全栈项目', '部署运维', '性能优化'] },
     ],
     relatedCourses: ['c2', 'c4', 'c9'],
-    relatedTools: ['t1', 't2', 't5'],
+    relatedTools: ['t1', 't2', 't5', 't15'],
     relatedProjects: ['p5'],
     relatedJobs: ['j1', 'j2'],
     interviewQuestions: [
