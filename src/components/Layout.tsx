@@ -6,6 +6,7 @@ const navItems = [
   { to: '/projects', label: '项目' },
   { to: '/jobs', label: '岗位' },
   { to: '/paths', label: '学习路径' },
+  { to: '/search', label: '搜索' },
 ]
 
 export default function Layout({ children }: { children: React.ReactNode }) {
