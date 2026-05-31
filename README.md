@@ -1,17 +1,6 @@
 # 计算机学习导航 (CS Learning Nav)
 
-计算机相关专业学生的系统化学习与职业发展平台，把课程、知识点、工具、项目、岗位和学习路径连接起来。
-
-## 项目定位
-
-这不是普通博客，也不是单纯的 RAG 问答工具。它帮助用户搞清楚：
-
-- **学什么** — 课程知识库
-- **怎么学** — 学习路径
-- **用什么工具** — 工具手册
-- **能做什么项目** — 项目库
-- **对应什么就业方向** — 岗位地图
-- **面试可能怎么问** — 面试问题
+计算机相关专业学生的系统化学习与职业发展平台。把课程、工具、项目、岗位和学习路径连接起来，帮助用户搞清楚学什么、怎么学、用什么工具、能做什么项目、对应什么就业方向。
 
 核心不是内容堆砌，而是**知识关系组织**。
 
@@ -24,7 +13,18 @@
 | 语言 | TypeScript 5 |
 | 样式 | Tailwind CSS 3 |
 | 路由 | React Router 6 |
-| 数据 | 本地 TypeScript 文件（第一版 MVP） |
+| 数据 | 本地 TypeScript 文件 |
+
+## 数据规模
+
+| 模块 | 数量 | 说明 |
+|------|------|------|
+| 课程 (Courses) | 10 | 含学习目标、章节目录、实践任务、推荐资源、学习建议 |
+| 工具 (Tools) | 15 | 含使用场景、安装配置、常用命令、工作流建议、常见问题 |
+| 项目 (Projects) | 10 | 含项目目标、功能模块、开发步骤、验收标准、面试讲法 |
+| 岗位 (Jobs) | 10 | 含核心能力、学习计划、作品集建议、面试重点、成长路径 |
+| 学习路径 (Paths) | 3 | 含详细学习阶段、关联资源、最终成果、求职准备清单 |
+| **合计** | **48** | **263 条交叉引用，零断链** |
 
 ## 目录结构
 
@@ -67,11 +67,105 @@ cs-learning-nav/
     │   ├── jobs.ts              # 10 个岗位
     │   └── paths.ts             # 3 条学习路径
     ├── types/
-    │   └── index.ts             # Course/Tool/Project/Job/LearningPath 类型
+    │   └── index.ts             # Course / Tool / Project / Job / LearningPath 类型定义
     └── utils/
         ├── filter.ts            # 搜索匹配、难度颜色、去重工具
         └── search.ts            # 全站搜索（跨五类数据检索）
 ```
+
+## 数据模型
+
+五类实体通过 `relatedCourses`、`relatedTools`、`relatedProjects`、`relatedJobs` 互相关联，所有 ID 引用均可从任一实体跳转到关联实体。
+
+```ts
+// 核心共享字段
+id: string
+title: string             // Tool 使用 name
+description: string
+category: string
+tags: string[]
+difficulty: '入门' | '基础' | '进阶' | '高级'
+
+// 关联字段
+relatedCourses: string[]
+relatedTools: string[]
+relatedProjects: string[]
+relatedJobs: string[]
+
+// ===== Course 学习内容字段（可选） =====
+learningObjectives?: string[]
+prerequisites?: string[]
+chapters?: { title, summary, keyPoints, exercises? }[]
+practiceTasks?: string[]
+recommendedResources?: { title, type: '书籍'|'视频'|'文章'|'工具' }[]
+learningTips?: string[]
+
+// ===== Project 实战任务字段（可选） =====
+projectGoals?: string[]
+targetUsers?: string[]
+prerequisites?: string[]
+featureModules?: { title, description, tasks[] }[]
+developmentSteps?: { title, description, checklist[] }[]
+acceptanceCriteria?: string[]
+interviewFollowups?: string[]
+
+// ===== Tool 工具手册字段（可选） =====
+useCases?: string[]
+setupSteps?: string[]
+commonCommands?: { command, description }[]
+workflowTips?: string[]
+commonProblems?: { problem, solution }[]
+relatedScenarios?: string[]
+
+// ===== Job 求职准备字段（可选） =====
+requiredAbilities?: string[]
+learningPlan?: { phase, focus, duration }[]
+portfolioAdvice?: string[]
+interviewFocus?: string[]
+growthPath?: string[]
+commonMistakes?: string[]
+
+// ===== LearningPath 任务化字段（可选） =====
+learningStages?: { name, description, courseIds[], projectIds[], toolIds[], goals[], checklist[] }[]
+finalOutcomes?: string[]
+portfolioProjects?: { title, description, techStack[] }[]
+jobReadiness?: string[]
+```
+
+所有新字段均为可选（`?`），页面条件渲染，不存在时不展示对应区域。
+
+## 页面路由
+
+| 路由 | 页面 | 说明 |
+|------|------|------|
+| `/` | Home | 首页，含"从哪里开始"三段引导、模块入口、知识关系说明、推荐路径 |
+| `/courses` | Courses | 课程列表，关键词搜索 + 分类 + 难度筛选 |
+| `/courses/:id` | CourseDetail | 课程详情，含学习目标、先修知识、章节目录、实践任务、推荐资源、学习建议、面试问题、关联跳转 |
+| `/projects` | Projects | 项目列表，关键词搜索 + 分类 + 难度筛选 |
+| `/projects/:id` | ProjectDetail | 项目详情，含项目目标、适合人群、前置知识、功能模块、开发步骤、验收标准、面试讲法、关联跳转 |
+| `/tools` | Tools | 工具列表，关键词搜索 + 分类 + 难度筛选 |
+| `/tools/:id` | ToolDetail | 工具详情，含使用场景、安装配置、常用命令、工作流建议、常见问题、关联跳转 |
+| `/jobs` | Jobs | 岗位列表，关键词搜索 + 分类筛选 |
+| `/jobs/:id` | JobDetail | 岗位详情，含核心能力、学习计划、作品集建议、面试重点、成长路径、常见误区、关联跳转 |
+| `/paths` | Paths | 学习路径列表，关键词搜索 + 难度筛选 |
+| `/paths/:id` | PathDetail | 学习路径详情，含阶段概要、详细学习计划（含关联资源链接）、最终成果、作品集项目、求职准备清单、关联跳转 |
+| `/search` | Search | 全站搜索，跨五类数据检索、URL query 同步、关键词高亮、类型筛选 |
+
+## 版本演进
+
+| 阶段 | 内容 | 状态 |
+|------|------|------|
+| v0.1 MVP | Vite + React + TypeScript + Tailwind 项目搭建，5 模块列表页 + 基础详情页，搜索筛选，48 条示例数据 | 完成 |
+| 数据扩充与关系治理 | 统一 relatedTools 为 ID 引用，补充缺失数据，确保所有实体间双向关联完整 | 完成 |
+| 全站搜索 | `/search` 页面，跨五类数据检索，URL 同步，关键词高亮，类型筛选 | 完成 |
+| 学习路径体验优化 | Paths 列表页统计徽章 + 阶段箭头链摘要，PathDetail 概览卡片 + 阶段学习顺序 | 完成 |
+| 课程学习内容层 | Course 新增 6 个可选字段，10 门课程全部填充章节目录、实践任务、推荐资源、学习建议等 | 完成 |
+| 项目实战任务层 | Project 新增 7 个可选字段，10 个项目全部填充项目目标、功能模块、开发步骤、验收标准等 | 完成 |
+| 学习路径任务化 | LearningPath 新增 4 个可选字段，3 条路径全部填充详细学习阶段、关联资源、最终成果、求职清单 | 完成 |
+| 工具手册层 | Tool 新增 6 个可选字段，15 个工具全部填充使用场景、安装配置、常用命令、工作流建议、常见问题 | 完成 |
+| 岗位求职准备层 | Job 新增 6 个可选字段，10 个岗位全部填充核心能力、学习计划、作品集建议、面试重点、成长路径 | 完成 |
+| 首页信息架构优化 | 新增"从哪里开始"三段引导、知识关系说明区域，保留原有模块入口和推荐路径 | 完成 |
+| 全站验收 | 12 页功能验证，263 条交叉引用零断链，TypeScript 零错误，构建通过 | 通过 |
 
 ## 本地运行
 
@@ -93,112 +187,29 @@ npm run build
 npm run preview
 ```
 
-## 页面路由
+## 当前限制
 
-| 路由 | 页面 | 说明 |
-|------|------|------|
-| `/` | Home | 首页，模块入口 + 推荐路径 |
-| `/courses` | Courses | 课程列表，搜索 + 分类 + 难度筛选 |
-| `/courses/:id` | CourseDetail | 课程详情，含面试问题 + 关联工具/项目/岗位 |
-| `/tools` | Tools | 工具列表，搜索 + 分类 + 难度筛选 |
-| `/tools/:id` | ToolDetail | 工具详情，含 FAQ + 关联课程 |
-| `/projects` | Projects | 项目列表，搜索 + 分类 + 难度筛选 |
-| `/projects/:id` | ProjectDetail | 项目详情，含亮点/可扩展点/面试讲法 + 关联 |
-| `/jobs` | Jobs | 岗位列表，搜索 + 分类筛选 |
-| `/jobs/:id` | JobDetail | 岗位详情，含核心能力/典型任务/面试题 + 关联 |
-| `/paths` | Paths | 学习路径列表 |
-| `/paths/:id` | PathDetail | 学习路径详情，含阶段内容 + 关联课程/工具/项目/岗位 |
-| `/search` | Search | 全站搜索，五类数据 + URL 同步 + 关键词高亮 + 类型筛选 |
-
-## 数据模型
-
-所有实体之间通过 `relatedCourses`、`relatedTools`、`relatedProjects`、`relatedJobs` 互相关联：
-
-```ts
-// 核心共享字段
-id: string
-title: string             // Tool 使用 name
-description: string
-category: string
-tags: string[]
-difficulty: '入门' | '基础' | '进阶' | '高级'
-
-// 关联字段
-relatedCourses: string[]
-relatedTools: string[]    // ID-based 匹配
-relatedProjects: string[]
-relatedJobs: string[]
-
-// 各实体特有字段
-Course:    interviewQuestions
-Tool:      faq
-Project:   highlights, extensions, interviewTalkingPoints
-Job:       skills, tasks, interviewQuestions
-LearningPath: targetJob, stages, interviewQuestions
-```
-
-## 第一版 MVP 完成情况
-
-| 功能 | 状态 | 说明 |
-|------|------|------|
-| 首页 | 已完成 | 系统定位 + 5 个模块入口 + 3 条推荐路径 + 搜索入口 |
-| 课程知识库 | 已完成 | 10 门课程，列表 + 搜索筛选 + 详情页 + 交叉跳转 |
-| 工具手册 | 已完成 | 15 个工具，列表 + 搜索筛选 + 详情页 + 交叉跳转 |
-| 项目库 | 已完成 | 10 个项目，列表 + 搜索筛选 + 详情页（亮点/可扩展点/面试讲法） |
-| 岗位地图 | 已完成 | 10 个岗位，列表 + 搜索筛选 + 详情页（核心能力/典型任务/面试题） |
-| 学习路径 | 已完成 | 3 条路径，列表 + 搜索筛选 + 详情页（阶段内容 + 交叉跳转） |
-| 搜索与筛选 | 已完成 | 关键词 + 分类 + 难度 + 重置，4 个列表页复用 SearchFilter |
-| 全站搜索 | 已完成 | /search 跨五类数据检索 + URL 同步 + 高亮 + 类型筛选 |
-| 关联跳转 | 已完成 | 课程/工具/项目/岗位/路径五向互相导航，263 条引用零断裂 |
-| 详情页组件 | 已完成 | DetailHeader / RelatedSection / QuestionList 三个通用组件 |
-| 空字段处理 | 已完成 | 所有可选字段条件渲染，不会报错 |
-| 不存在 ID | 已完成 | 详情页空状态提示 + 返回按钮 |
-| TypeScript | 已完成 | tsc -b 零错误，59 模块构建通过 |
-
-## 第三阶段：全站搜索
-
-| 功能 | 状态 | 说明 |
-|------|------|------|
-| /search 页面 | 已完成 | 跨 Courses/Tools/Projects/Jobs/Paths 五类数据搜索 |
-| 搜索范围 | 已完成 | title/name、description、tags、category |
-| URL query 同步 | 已完成 | /search?q=Python 自动填入搜索框，清空后回到 /search |
-| 关键词高亮 | 已完成 | 匹配文本用 `<mark>` 黄色背景高亮，支持中英文 |
-| 类型筛选 | 已完成 | 全部/课程/工具/项目/岗位/学习路径，每类显示数量（含 0） |
-| 空结果提示 | 已完成 | 全局空结果 + 单类型空结果，两种提示文案 |
-| 搜索入口 | 已完成 | 首页"搜索全站"按钮 + 导航栏"搜索"链接 |
-| 验收结果 | 通过 | 无 P1 问题，tsc -b 和 npm run build 均通过 |
-
-**当前不做：** 后端、数据库、登录注册、用户系统、RAG、AI 问答、后台管理。
-
-## 已知问题
-
-1. **无全局 404 页面**：访问无效路由会显示空白内容区（导航栏和页脚依然可见）。
-2. **筛选状态不随清空重置**：类型筛选在清空关键词后保留上次选择，不影响功能（可手动点"全部"），属体验优化项。
+- 无后端、无数据库、无登录注册、无用户系统
+- 无 RAG / AI 问答
+- 无后台管理系统
+- 无全局 404 页面（无效路由显示空白内容区，导航栏和页脚正常）
+- 无面包屑导航
+- 所有数据为静态本地文件，内容仅供演示
 
 ## 后续规划
 
-- [x] 统一 relatedTools 为 ID 引用，补充缺失的工具数据条目
-- [x] Paths 列表页接入 SearchFilter
-- [x] 推荐学习路径卡片链接到具体详情页
-- [x] 补充更多课程、工具、项目、岗位、路径数据
-- [x] 抽取通用详情页组件，减少重复代码
-- [x] 增加全局搜索（跨模块关键词检索）
-- [ ] 增加全局 404 页面和通配路由
-- [ ] 增加面包屑导航
-- [ ] 后续接入 RAG 智能问答层
+以下均为可选项，不阻塞当前版本封版：
+
+- [ ] 全局 404 页面和通配路由
+- [ ] 面包屑导航
+- [ ] 后台管理系统（内容 CRUD）
+- [ ] 数据库持久化
 - [ ] 用户系统与学习进度追踪
+- [ ] RAG 智能学习助手
 
 ## 部署
 
-### GitHub 上传
-
-```bash
-git remote add origin git@github.com:你的用户名/cs-learning-nav.git
-git branch -M main
-git push -u origin main
-```
-
-### Vercel 部署
+### Vercel
 
 1. 在 [vercel.com](https://vercel.com) 注册并导入 GitHub 仓库
 2. 选择仓库 `cs-learning-nav`
@@ -206,7 +217,7 @@ git push -u origin main
 4. Build Command: `npm run build`，Output Directory: `dist`
 5. 点击 Deploy — 之后每次 `git push` 自动重新部署
 
-### Netlify 部署
+### Netlify
 
 1. 在 [netlify.com](https://netlify.com) 注册并连接 GitHub
 2. 选择仓库 `cs-learning-nav`
@@ -217,6 +228,14 @@ git push -u origin main
 
 ```bash
 npx netlify-cli deploy --prod --dir=dist
+```
+
+### GitHub Pages
+
+```bash
+git remote add origin git@github.com:你的用户名/cs-learning-nav.git
+git branch -M main
+git push -u origin main
 ```
 
 ## License
