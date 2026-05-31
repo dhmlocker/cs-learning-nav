@@ -50,6 +50,22 @@ export interface Project {
   highlights?: string[]
   extensions?: string[]
   interviewTalkingPoints?: string
+  // 以下为可选项目实战内容字段
+  projectGoals?: string[]
+  targetUsers?: string[]
+  prerequisites?: string[]
+  featureModules?: {
+    title: string
+    description: string
+    tasks: string[]
+  }[]
+  developmentSteps?: {
+    title: string
+    description: string
+    checklist: string[]
+  }[]
+  acceptanceCriteria?: string[]
+  interviewFollowups?: string[]
 }
 
 export interface Job {
