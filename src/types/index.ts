@@ -35,6 +35,13 @@ export interface Tool {
   difficulty: '入门' | '基础' | '进阶' | '高级'
   relatedCourses: string[]
   faq?: string[]
+  // 以下为可选工具手册内容字段
+  useCases?: string[]
+  setupSteps?: string[]
+  commonCommands?: { command: string; description: string }[]
+  workflowTips?: string[]
+  commonProblems?: { problem: string; solution: string }[]
+  relatedScenarios?: string[]
 }
 
 export interface Project {
@@ -80,6 +87,13 @@ export interface Job {
   skills?: string[]
   tasks?: string[]
   interviewQuestions?: string[]
+  // 以下为可选求职准备内容字段
+  requiredAbilities?: string[]
+  learningPlan?: { phase: string; focus: string; duration: string }[]
+  portfolioAdvice?: string[]
+  interviewFocus?: string[]
+  growthPath?: string[]
+  commonMistakes?: string[]
 }
 
 export interface LearningPath {
@@ -98,4 +112,17 @@ export interface LearningPath {
   relatedProjects?: string[]
   relatedJobs?: string[]
   interviewQuestions?: string[]
+  // 以下为可选任务化学习内容字段
+  learningStages?: {
+    name: string
+    description: string
+    courseIds: string[]
+    projectIds: string[]
+    toolIds: string[]
+    goals: string[]
+    checklist: string[]
+  }[]
+  finalOutcomes?: string[]
+  portfolioProjects?: { title: string; description: string; techStack: string[] }[]
+  jobReadiness?: string[]
 }

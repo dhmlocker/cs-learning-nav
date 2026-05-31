@@ -21,7 +21,6 @@ export default function ToolDetail() {
   }
 
   const relatedCourses = courses.filter((c) => tool.relatedCourses.includes(c.id))
-
   const courseItems = relatedCourses.map((c) => ({ id: c.id, label: c.title, to: `/courses/${c.id}` }))
 
   return (
@@ -41,6 +40,98 @@ export default function ToolDetail() {
           </div>
         }
       />
+
+      {/* 使用场景 */}
+      {tool.useCases && tool.useCases.length > 0 && (
+        <section className="mt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-3">使用场景</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {tool.useCases.map((item, i) => (
+              <div key={i} className="flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-lg px-3 py-2">
+                <span className="text-blue-400 text-xs shrink-0">▸</span>
+                <span className="text-sm text-blue-700">{item}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 安装配置步骤 */}
+      {tool.setupSteps && tool.setupSteps.length > 0 && (
+        <section className="mt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-3">安装与配置</h2>
+          <ul className="space-y-1.5">
+            {tool.setupSteps.map((item, i) => (
+              <li key={i} className="flex gap-2 text-sm text-gray-600">
+                <span className="text-blue-500 font-medium shrink-0">{i + 1}.</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* 常用命令 */}
+      {tool.commonCommands && tool.commonCommands.length > 0 && (
+        <section className="mt-8 border-t border-gray-100 pt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-3">常用命令</h2>
+          <div className="space-y-2">
+            {tool.commonCommands.map((cmd, i) => (
+              <div key={i} className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5">
+                <code className="text-sm text-gray-800 font-mono break-all">{cmd.command}</code>
+                <p className="text-xs text-gray-500 mt-1">{cmd.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 工作流建议 */}
+      {tool.workflowTips && tool.workflowTips.length > 0 && (
+        <section className="mt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-3">工作流建议</h2>
+          <ul className="space-y-1.5">
+            {tool.workflowTips.map((item, i) => (
+              <li key={i} className="flex gap-2 text-sm text-gray-600">
+                <span className="text-yellow-500 shrink-0">💡</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* 常见问题与解决 */}
+      {tool.commonProblems && tool.commonProblems.length > 0 && (
+        <section className="mt-8 border-t border-gray-100 pt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-3">常见问题与解决</h2>
+          <div className="space-y-3">
+            {tool.commonProblems.map((cp, i) => (
+              <div key={i} className="bg-white border border-gray-200 rounded-lg p-4">
+                <div className="flex gap-2 items-start">
+                  <span className="text-red-400 text-sm shrink-0 mt-0.5">❓</span>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-800">{cp.problem}</p>
+                    <p className="text-xs text-gray-500 mt-1">{cp.solution}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 相关场景 */}
+      {tool.relatedScenarios && tool.relatedScenarios.length > 0 && (
+        <section className="mt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-3">相关应用场景</h2>
+          <div className="flex flex-wrap gap-2">
+            {tool.relatedScenarios.map((s) => (
+              <span key={s} className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full">{s}</span>
+            ))}
+          </div>
+        </section>
+      )}
 
       {tool.faq && tool.faq.length > 0 && (
         <QuestionList title="常见问题" items={tool.faq} />

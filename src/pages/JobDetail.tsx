@@ -42,18 +42,132 @@ export default function JobDetail() {
         }
       />
 
+      {/* 核心能力要求 */}
+      {job.requiredAbilities && job.requiredAbilities.length > 0 && (
+        <section className="mt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-3">核心能力要求</h2>
+          <ul className="space-y-1.5">
+            {job.requiredAbilities.map((item, i) => (
+              <li key={i} className="flex gap-2 text-sm text-gray-600">
+                <span className="text-blue-500 font-medium shrink-0">{i + 1}.</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* 学习计划 */}
+      {job.learningPlan && job.learningPlan.length > 0 && (
+        <section className="mt-8 border-t border-gray-100 pt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-1">推荐学习路径</h2>
+          <p className="text-xs text-gray-400 mb-4">从零开始准备该岗位的阶段性学习计划</p>
+          <div className="space-y-0">
+            {job.learningPlan.map((lp, i) => (
+              <div key={i} className="flex gap-3">
+                <div className="flex flex-col items-center shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-green-600 text-white text-xs font-semibold flex items-center justify-center">
+                    {i + 1}
+                  </div>
+                  {i < job.learningPlan!.length - 1 && (
+                    <div className="w-0.5 flex-1 min-h-[16px] bg-green-200 my-0.5" />
+                  )}
+                </div>
+                <div className={`flex-1 ${i < job.learningPlan!.length - 1 ? 'pb-4' : ''}`}>
+                  <div className="bg-white border border-gray-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-semibold text-gray-800">{lp.phase}</span>
+                      <span className="text-xs text-gray-400">{lp.duration}</span>
+                    </div>
+                    <p className="text-xs text-gray-500">{lp.focus}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 通用能力（skills） */}
       {job.skills && job.skills.length > 0 && (
         <QuestionList title="核心能力" items={job.skills} colorClass="text-green-400" />
       )}
 
+      {/* 典型任务 */}
       {job.tasks && job.tasks.length > 0 && (
         <QuestionList title="典型任务" items={job.tasks} colorClass="text-yellow-400" className="mt-6" />
       )}
 
+      {/* 作品集建议 */}
+      {job.portfolioAdvice && job.portfolioAdvice.length > 0 && (
+        <section className="mt-8 border-t border-gray-100 pt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-3">作品集 / 简历建议</h2>
+          <ul className="space-y-1.5">
+            {job.portfolioAdvice.map((item, i) => (
+              <li key={i} className="flex gap-2 text-sm text-gray-600">
+                <span className="text-purple-500 shrink-0">✦</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* 面试重点 */}
+      {job.interviewFocus && job.interviewFocus.length > 0 && (
+        <section className="mt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-3">面试考察重点</h2>
+          <ul className="space-y-1.5">
+            {job.interviewFocus.map((item, i) => (
+              <li key={i} className="flex gap-2 text-sm text-gray-600">
+                <span className="text-red-400 font-medium shrink-0">{i + 1}.</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* 常见面试问题 */}
       {job.interviewQuestions && job.interviewQuestions.length > 0 && (
         <QuestionList title="常见面试问题" items={job.interviewQuestions} className="mt-6" />
       )}
 
+      {/* 职业成长路径 */}
+      {job.growthPath && job.growthPath.length > 0 && (
+        <section className="mt-8 border-t border-gray-100 pt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-3">职业成长路径</h2>
+          <div className="space-y-2">
+            {job.growthPath.map((item, i) => (
+              <div key={i} className="flex gap-3 items-start bg-gray-50 border border-gray-100 rounded-lg p-3">
+                <span className="w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-semibold flex items-center justify-center shrink-0">
+                  {i + 1}
+                </span>
+                <p className="text-sm text-gray-600 pt-0.5">{item}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 常见误区 */}
+      {job.commonMistakes && job.commonMistakes.length > 0 && (
+        <section className="mt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-3">新手常见误区</h2>
+          <div className="bg-red-50 border border-red-100 rounded-lg p-4">
+            <ul className="space-y-1.5">
+              {job.commonMistakes.map((item, i) => (
+                <li key={i} className="flex gap-2 text-sm text-gray-700">
+                  <span className="text-red-400 shrink-0">⚠</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/* 关联内容 */}
       {courseItems.length > 0 && (
         <RelatedSection
           title="相关课程"
