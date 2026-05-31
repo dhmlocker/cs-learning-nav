@@ -52,7 +52,7 @@ export default function PathDetail() {
       />
 
       {/* 概览摘要卡片 */}
-      <div className="mt-6 grid grid-cols-3 gap-3">
+      <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-center">
           <div className="text-lg font-semibold text-blue-700">{path.stages.length}</div>
           <div className="text-xs text-blue-500">学习阶段</div>
@@ -64,6 +64,10 @@ export default function PathDetail() {
         <div className="bg-purple-50 border border-purple-100 rounded-lg p-3 text-center">
           <div className="text-lg font-semibold text-purple-700">{projectItems.length}</div>
           <div className="text-xs text-purple-500">可做项目</div>
+        </div>
+        <div className="bg-orange-50 border border-orange-100 rounded-lg p-3 text-center">
+          <div className="text-lg font-semibold text-orange-700">{jobItems.length}</div>
+          <div className="text-xs text-orange-500">对应岗位</div>
         </div>
       </div>
 
