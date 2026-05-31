@@ -28,6 +28,8 @@ export default function CourseDetail() {
   const projectItems = relatedProjects.map((p) => ({ id: p.id, label: p.title, to: `/projects/${p.id}` }))
   const jobItems = relatedJobs.map((j) => ({ id: j.id, label: j.title, to: `/jobs/${j.id}` }))
 
+  const hasStats = toolItems.length > 0 || projectItems.length > 0 || jobItems.length > 0
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <DetailHeader
@@ -46,22 +48,46 @@ export default function CourseDetail() {
         }
       />
 
+      {/* 概览统计卡片 */}
+      {hasStats && (
+        <div className="mt-6 grid grid-cols-3 gap-3">
+          {toolItems.length > 0 && (
+            <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-center">
+              <div className="text-lg font-semibold text-blue-700">{toolItems.length}</div>
+              <div className="text-xs text-blue-500">相关工具</div>
+            </div>
+          )}
+          {projectItems.length > 0 && (
+            <div className="bg-purple-50 border border-purple-100 rounded-lg p-3 text-center">
+              <div className="text-lg font-semibold text-purple-700">{projectItems.length}</div>
+              <div className="text-xs text-purple-500">相关项目</div>
+            </div>
+          )}
+          {jobItems.length > 0 && (
+            <div className="bg-orange-50 border border-orange-100 rounded-lg p-3 text-center">
+              <div className="text-lg font-semibold text-orange-700">{jobItems.length}</div>
+              <div className="text-xs text-orange-500">相关岗位</div>
+            </div>
+          )}
+        </div>
+      )}
+
       {course.interviewQuestions && course.interviewQuestions.length > 0 && (
         <QuestionList title="常见面试问题" items={course.interviewQuestions} />
       )}
 
-      {toolItems.length > 0 && (
-        <RelatedSection
-          title="相关工具"
-          items={toolItems}
-          className="mt-8 border-t border-gray-100 pt-6"
-        />
-      )}
-      {projectItems.length > 0 && (
-        <RelatedSection title="相关项目" items={projectItems} />
-      )}
-      {jobItems.length > 0 && (
-        <RelatedSection title="相关岗位" items={jobItems} />
+      {(toolItems.length > 0 || projectItems.length > 0 || jobItems.length > 0) && (
+        <div className="mt-8 border-t border-gray-100 pt-6">
+          {toolItems.length > 0 && (
+            <RelatedSection title="相关工具" items={toolItems} className="mt-0" />
+          )}
+          {projectItems.length > 0 && (
+            <RelatedSection title="相关项目" items={projectItems} className="mt-6" />
+          )}
+          {jobItems.length > 0 && (
+            <RelatedSection title="相关岗位" items={jobItems} className="mt-6 mb-4" />
+          )}
+        </div>
       )}
     </div>
   )
