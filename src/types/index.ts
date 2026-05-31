@@ -9,6 +9,21 @@ export interface Course {
   relatedProjects: string[]
   relatedJobs: string[]
   interviewQuestions?: string[]
+  // 以下为可选学习内容字段，仅对已填充的课程展示
+  learningObjectives?: string[]
+  prerequisites?: string[]
+  chapters?: {
+    title: string
+    summary: string
+    keyPoints: string[]
+    exercises?: string[]
+  }[]
+  practiceTasks?: string[]
+  recommendedResources?: {
+    title: string
+    type: '书籍' | '视频' | '文章' | '工具'
+  }[]
+  learningTips?: string[]
 }
 
 export interface Tool {
