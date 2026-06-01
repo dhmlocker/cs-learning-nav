@@ -30,6 +30,15 @@ export default function CourseDetail() {
 
   const hasStats = toolItems.length > 0 || projectItems.length > 0 || jobItems.length > 0
 
+  // 目录：优先新 units，否则从 chapters 派生
+  type DirItem = { id: string; title: string; summary?: string; count: number }
+  const unitDirectory: DirItem[] | null = course.units
+    ? course.units.map((u) => ({ id: u.id, title: u.title, summary: u.summary, count: u.knowledgePoints.length }))
+    : course.chapters
+      ? course.chapters.map((ch, i) => ({ id: String(i), title: ch.title, summary: ch.summary, count: ch.keyPoints.length }))
+      : null
+  const hasDirectory = unitDirectory !== null
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <DetailHeader
@@ -84,7 +93,55 @@ export default function CourseDetail() {
         <QuestionList title="常见面试问题" items={course.interviewQuestions} />
       )}
 
-      {/* ===== 学习内容区域（仅对填充了详情的课程展示） ===== */}
+      {/* ===== 学习单元目录 ===== */}
+      {hasDirectory && (
+        <section className="mt-8 border-t border-gray-100 pt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-1">学习单元</h2>
+          <p className="text-xs text-gray-400 mb-6">
+            共 {unitDirectory!.length} 个单元，点击查看详细知识点、练习和验收标准。
+          </p>
+          <div className="space-y-0">
+            {unitDirectory!.map((item, i) => (
+              <div key={item.id} className="flex gap-3">
+                <div className="flex flex-col items-center shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white text-xs font-semibold flex items-center justify-center">
+                    {i + 1}
+                  </div>
+                  {i < unitDirectory!.length - 1 && (
+                    <div className="w-0.5 flex-1 min-h-[16px] bg-blue-200 my-0.5" />
+                  )}
+                </div>
+                <div className={`flex-1 ${i < unitDirectory!.length - 1 ? 'pb-4' : ''}`}>
+                  <Link
+                    to={`/courses/${course.id}/units/${item.id}`}
+                    className="block bg-white border border-gray-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-sm transition-all group"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-semibold text-gray-800 group-hover:text-blue-700 transition-colors">
+                          {item.title}
+                        </h3>
+                        {item.summary && (
+                          <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.summary}</p>
+                        )}
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className="text-xs text-gray-400">{item.count} 个知识点</span>
+                        </div>
+                      </div>
+                      <span className="text-xs text-blue-500 border border-blue-200 bg-blue-50 px-2 py-1 rounded group-hover:bg-blue-100 transition-colors shrink-0">
+                        查看单元 →
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ===== 学习内容区域（无目录时展示，有目录时隐藏） ===== */}
+      {!hasDirectory && (<>
       {course.learningObjectives && course.learningObjectives.length > 0 && (
         <section className="mt-8 border-t border-gray-100 pt-6">
           <h2 className="text-base font-semibold text-gray-800 mb-3">学习目标</h2>
@@ -251,6 +308,7 @@ export default function CourseDetail() {
         </section>
       )}
 
+      </>)}
       {(toolItems.length > 0 || projectItems.length > 0 || jobItems.length > 0) && (
         <div className="mt-8 border-t border-gray-100 pt-6">
           {toolItems.length > 0 && (

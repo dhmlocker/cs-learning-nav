@@ -37,7 +37,7 @@ export default function Home() {
     <div>
       {/* ===== 区域一：Hero ===== */}
       <section className="py-16 text-center bg-white border-b border-gray-200">
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">计算机学习导航</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-3">CodeAtlas｜项目驱动学习平台</h1>
         <p className="text-gray-500 max-w-xl mx-auto">
           把课程、知识点、工具、项目、岗位和学习路径连接起来，帮你搞清楚学什么、怎么学、用在哪
         </p>

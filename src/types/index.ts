@@ -1,3 +1,68 @@
+export type ResourceStatus = 'verified' | 'pending' | 'needs_review'
+
+export interface CourseUnit {
+  id: string
+  title: string
+  summary?: string
+  goal?: string
+  knowledgePoints: string[]
+  relatedProjectTasks?: string[]
+  relatedTools: string[]
+  exercises?: string[]
+  resources: TaskResource[]
+  acceptanceCriteria: string[]
+  sourceBasis?: string
+  resourceStatus?: ResourceStatus
+}
+
+export interface ToolUsage {
+  id: string
+  title: string
+  summary?: string
+  problem?: string
+  knowledgePoints: string[]
+  relatedProjectTasks: string[]
+  relatedCourses: string[]
+  steps?: string[]
+  resources: TaskResource[]
+  acceptanceCriteria: string[]
+  sourceBasis?: string
+  resourceStatus?: ResourceStatus
+}
+
+export interface PathStageDetail {
+  id: string
+  title: string
+  summary?: string
+  goal?: string
+  duration?: string
+  courseIds: string[]
+  projectIds: string[]
+  toolIds: string[]
+  knowledgePoints: string[]
+  resources: TaskResource[]
+  outcomes: string[]
+  checklist: string[]
+  sourceBasis?: string
+  resourceStatus?: ResourceStatus
+}
+
+export interface SkillModule {
+  id: string
+  title: string
+  summary?: string
+  goal?: string
+  skills: string[]
+  relatedCourses: string[]
+  relatedProjects: string[]
+  resources: TaskResource[]
+  interviewQuestions?: string[]
+  portfolioAdvice?: string[]
+  acceptanceCriteria: string[]
+  sourceBasis?: string
+  resourceStatus?: ResourceStatus
+}
+
 export interface ExternalResource {
   source: string
   title: string
@@ -37,6 +102,7 @@ export interface Course {
   }[]
   externalResources?: ExternalResource[]
   learningTips?: string[]
+  units?: CourseUnit[]
 }
 
 export interface Tool {
@@ -55,6 +121,31 @@ export interface Tool {
   workflowTips?: string[]
   commonProblems?: { problem: string; solution: string }[]
   relatedScenarios?: string[]
+  usageScenarios?: ToolUsage[]
+}
+
+export interface TaskResource {
+  title: string
+  source: string
+  url: string
+  type: 'doc' | 'tutorial' | 'exercise' | 'video' | 'repo'
+  isRequired?: boolean
+  note?: string
+  status: 'verified' | 'pending' | 'needs_review'
+}
+
+export interface TaskStep {
+  id: string
+  title: string
+  goal?: string
+  deliverable: string
+  knowledgePoints: string[]
+  relatedCourses: string[]
+  relatedExercises?: string[]
+  relatedTools: string[]
+  resources: TaskResource[]
+  acceptanceCriteria: string[]
+  commonMistakes?: string[]
 }
 
 export interface Project {
@@ -67,10 +158,12 @@ export interface Project {
   relatedCourses: string[]
   relatedTools: string[]
   relatedJobs: string[]
-  highlights?: string[]
-  extensions?: string[]
-  interviewTalkingPoints?: string
-  // 以下为可选项目实战内容字段
+  // 项目驱动学习字段
+  finalOutcome?: string
+  sourceBasis?: string
+  resourceStatus?: 'verified' | 'pending' | 'needs_review'
+  taskFlow?: TaskStep[]
+  // 以下为旧版可选项目实战内容字段（无 taskFlow 的项目继续使用）
   projectGoals?: string[]
   targetUsers?: string[]
   prerequisites?: string[]
@@ -85,7 +178,6 @@ export interface Project {
     checklist: string[]
   }[]
   acceptanceCriteria?: string[]
-  interviewFollowups?: string[]
 }
 
 export interface Job {
@@ -107,6 +199,7 @@ export interface Job {
   interviewFocus?: string[]
   growthPath?: string[]
   commonMistakes?: string[]
+  skillModules?: SkillModule[]
 }
 
 export interface LearningPath {
@@ -140,4 +233,5 @@ export interface LearningPath {
   finalOutcomes?: string[]
   portfolioProjects?: { title: string; description: string; techStack: string[] }[]
   jobReadiness?: string[]
+  stageDetails?: PathStageDetail[]
 }

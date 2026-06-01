@@ -30,7 +30,7 @@ export default function Projects() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-gray-900 mb-2">项目库</h1>
-      <p className="text-gray-500 text-sm mb-4">不同方向、不同难度的实战项目</p>
+      <p className="text-gray-500 text-sm mb-4">选择一个项目开始学习，以项目任务反推具体知识点</p>
 
       <SearchFilter
         keyword={keyword}
@@ -63,6 +63,9 @@ export default function Projects() {
                 <span className={`text-xs px-2 py-0.5 rounded ${DIFFICULTY_COLORS[p.difficulty]}`}>
                   {p.difficulty}
                 </span>
+                {p.taskFlow && p.taskFlow.length > 0 && (
+                  <span className="text-xs px-1.5 py-0.5 rounded bg-blue-50 text-blue-600 border border-blue-100">图谱</span>
+                )}
               </div>
               <h3 className="font-semibold text-gray-800">{p.title}</h3>
               <p className="text-sm text-gray-500 mt-1">{p.description}</p>

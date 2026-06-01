@@ -93,6 +93,53 @@ export const courses: Course[] = [
       '给同学或自己用大白话讲一遍刚学的内容——能讲明白、讲出"为什么用这个不用那个"才是真懂了。',
       '定期做"数据结构速查表"：列出每种结构的增删查时间复杂度、适用场景、工程中的实际应用，常看常新。',
     ],
+    units: [
+      {
+        id: 'c1-u1',
+        title: '复杂度分析',
+        summary: '建立算法效率分析的基本框架，理解大 O 表示法的含义',
+        goal: '能用大 O 表示法分析一段代码的时间和空间复杂度',
+        knowledgePoints: ['大 O 表示法', '时间复杂度', '空间复杂度', '最好/最坏/平均情况', '递归复杂度分析'],
+        relatedTools: ['t4'],
+        exercises: ['分析双层循环嵌套的时间复杂度', '写一个递归求斐波那契数列的函数并分析复杂度'],
+        resources: [
+          { title: 'Big O Cheat Sheet', source: 'bigocheatsheet.com', url: 'https://www.bigocheatsheet.com/', type: 'doc', isRequired: true, status: 'verified' },
+        ],
+        acceptanceCriteria: ['能分析常见循环和递归的时间复杂度', '能比较不同数据结构的操作复杂度'],
+        sourceBasis: '《算法导论》第三章、bigocheatsheet.com',
+        resourceStatus: 'needs_review',
+      },
+      {
+        id: 'c1-u2',
+        title: '数组与链表',
+        summary: '两种最基础的线性结构，理解内存存储差异如何导致不同的操作效率',
+        goal: '能实现动态数组和链表，理解二者在内存、查找、插入/删除三个维度的差异',
+        knowledgePoints: ['动态数组扩容机制', '单链表头插/尾插/按位操作', '双向链表设计', 'LRU 缓存', '数组 vs 链表对比'],
+        relatedTools: ['t4'],
+        exercises: ['实现支持动态扩容的 ArrayList', '实现单链表反转（迭代+递归）', '用双向链表+哈希表实现 LRU 缓存'],
+        resources: [
+          { title: 'Python list 实现文档', source: 'Python docs', url: 'https://docs.python.org/3/tutorial/datastructures.html', type: 'doc', isRequired: true, status: 'verified' },
+        ],
+        acceptanceCriteria: ['ArrayList 扩容逻辑正确，旧数据不丢失', '链表反转通过 10+ 测试用例', 'LRU get/put 均为 O(1)'],
+        sourceBasis: '《数据结构》严蔚敏、LeetCode LRU Cache',
+        resourceStatus: 'needs_review',
+      },
+      {
+        id: 'c1-u3',
+        title: '栈与队列',
+        summary: '操作受限的线性结构——LIFO 和 FIFO 带来的秩序',
+        goal: '能用栈和队列解决括号匹配、表达式求值、任务调度等实际问题',
+        knowledgePoints: ['栈的数组/链表实现', '单调栈', '循环队列', '双端队列 deque', '用栈模拟队列/用队列模拟栈'],
+        relatedTools: ['t4'],
+        exercises: ['用栈实现计算器（中缀→后缀→求值）', '用单调栈解决"每日温度"问题', '实现循环队列'],
+        resources: [
+          { title: 'LeetCode Stack 标签题目', source: 'LeetCode', url: 'https://leetcode.com/tag/stack/', type: 'exercise', isRequired: false, status: 'verified' },
+        ],
+        acceptanceCriteria: ['计算器正确处理加减乘除和括号', '循环队列正确处理队空/队满判断', '单调栈解法通过 LeetCode 测试'],
+        sourceBasis: '《数据结构》严蔚敏、LeetCode 栈与队列专题',
+        resourceStatus: 'needs_review',
+      },
+    ],
   },
 
   // ===== c2: 计算机网络 =====

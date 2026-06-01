@@ -30,6 +30,14 @@ export default function PathDetail() {
   const projectItems = relatedProjects.map((p) => ({ id: p.id, label: p.title, to: `/projects/${p.id}` }))
   const jobItems = relatedJobs.map((j) => ({ id: j.id, label: j.title, to: `/jobs/${j.id}` }))
 
+  type DirItem = { id: string; title: string; summary?: string; goal?: string; courses: number; projects: number }
+  const stageDirectory: DirItem[] | null = path.stageDetails
+    ? path.stageDetails.map((s) => ({ id: s.id, title: s.title, summary: s.goal, goal: s.goal, courses: s.courseIds.length, projects: s.projectIds.length }))
+    : path.learningStages
+      ? path.learningStages.map((ls, i) => ({ id: String(i), title: ls.name, summary: ls.description, goal: ls.goals[0], courses: ls.courseIds.length, projects: ls.projectIds.length }))
+      : null
+  const hasDirectory = stageDirectory !== null
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       {/* ===== 区域一：路径概览 ===== */}
@@ -104,8 +112,56 @@ export default function PathDetail() {
         </div>
       </section>
 
-      {/* ===== 区域三：任务化学习阶段（详细版） ===== */}
-      {path.learningStages && path.learningStages.length > 0 && (
+      {/* ===== 学习阶段目录 ===== */}
+      {hasDirectory && (
+        <section className="mt-8 border-t border-gray-100 pt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-1">学习阶段</h2>
+          <p className="text-xs text-gray-400 mb-6">
+            共 {stageDirectory!.length} 个阶段，点击查看详细知识点、关联资源和验收标准。
+          </p>
+          <div className="space-y-0">
+            {stageDirectory!.map((item, i) => (
+              <div key={item.id} className="flex gap-3">
+                <div className="flex flex-col items-center shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-green-600 text-white text-xs font-semibold flex items-center justify-center">
+                    {i + 1}
+                  </div>
+                  {i < stageDirectory!.length - 1 && (
+                    <div className="w-0.5 flex-1 min-h-[16px] bg-green-200 my-0.5" />
+                  )}
+                </div>
+                <div className={`flex-1 ${i < stageDirectory!.length - 1 ? 'pb-4' : ''}`}>
+                  <Link
+                    to={`/paths/${path.id}/stages/${item.id}`}
+                    className="block bg-white border border-gray-200 rounded-lg p-4 hover:border-green-300 hover:shadow-sm transition-all group"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-semibold text-gray-800 group-hover:text-green-700 transition-colors">
+                          {item.title}
+                        </h3>
+                        {item.summary && (
+                          <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.summary}</p>
+                        )}
+                        <div className="flex items-center gap-3 mt-2">
+                          {item.courses > 0 && <span className="text-xs text-gray-400">{item.courses} 门课程</span>}
+                          {item.projects > 0 && <span className="text-xs text-gray-400">{item.projects} 个项目</span>}
+                        </div>
+                      </div>
+                      <span className="text-xs text-green-600 border border-green-200 bg-green-50 px-2 py-1 rounded group-hover:bg-green-100 transition-colors shrink-0">
+                        查看阶段 →
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ===== 旧版详细学习计划（无目录时展示） ===== */}
+      {!hasDirectory && path.learningStages && path.learningStages.length > 0 && (
         <section className="mt-8 border-t border-gray-100 pt-6">
           <h2 className="text-base font-semibold text-gray-800 mb-1">详细学习计划</h2>
           <p className="text-xs text-gray-400 mb-4">每个阶段的具体目标、关联资源和完成检查清单</p>

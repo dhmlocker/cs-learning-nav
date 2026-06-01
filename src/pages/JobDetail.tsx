@@ -27,6 +27,14 @@ export default function JobDetail() {
   const toolItems = relatedTools.map((t) => ({ id: t.id, label: t.name, to: `/tools/${t.id}` }))
   const projectItems = relatedProjects.map((p) => ({ id: p.id, label: p.title, to: `/projects/${p.id}` }))
 
+  type DirItem = { id: string; title: string; summary?: string; count: number }
+  const moduleDirectory: DirItem[] | null = job.skillModules
+    ? job.skillModules.map((m) => ({ id: m.id, title: m.title, summary: m.goal, count: m.skills.length }))
+    : job.learningPlan
+      ? job.learningPlan.map((lp, i) => ({ id: String(i), title: lp.phase, summary: lp.focus, count: 0 }))
+      : null
+  const hasDirectory = moduleDirectory !== null
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <DetailHeader
@@ -57,7 +65,57 @@ export default function JobDetail() {
         </section>
       )}
 
-      {/* 学习计划 */}
+      {/* ===== 能力模块目录 ===== */}
+      {hasDirectory && (
+        <section className="mt-8 border-t border-gray-100 pt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-1">准备模块</h2>
+          <p className="text-xs text-gray-400 mb-6">
+            共 {moduleDirectory!.length} 个模块，点击查看技能点、关联资源、面试准备和验收标准。
+          </p>
+          <div className="space-y-0">
+            {moduleDirectory!.map((item, i) => (
+              <div key={item.id} className="flex gap-3">
+                <div className="flex flex-col items-center shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-orange-500 text-white text-xs font-semibold flex items-center justify-center">
+                    {i + 1}
+                  </div>
+                  {i < moduleDirectory!.length - 1 && (
+                    <div className="w-0.5 flex-1 min-h-[16px] bg-orange-200 my-0.5" />
+                  )}
+                </div>
+                <div className={`flex-1 ${i < moduleDirectory!.length - 1 ? 'pb-4' : ''}`}>
+                  <Link
+                    to={`/jobs/${job.id}/modules/${item.id}`}
+                    className="block bg-white border border-gray-200 rounded-lg p-4 hover:border-orange-300 hover:shadow-sm transition-all group"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-semibold text-gray-800 group-hover:text-orange-700 transition-colors">
+                          {item.title}
+                        </h3>
+                        {item.summary && (
+                          <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.summary}</p>
+                        )}
+                        {item.count > 0 && (
+                          <div className="mt-2">
+                            <span className="text-xs text-gray-400">{item.count} 个技能点</span>
+                          </div>
+                        )}
+                      </div>
+                      <span className="text-xs text-orange-500 border border-orange-200 bg-orange-50 px-2 py-1 rounded group-hover:bg-orange-100 transition-colors shrink-0">
+                        查看模块 →
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ===== 旧版详细内容（无目录时展示） ===== */}
+      {!hasDirectory && (<>
       {job.learningPlan && job.learningPlan.length > 0 && (
         <section className="mt-8 border-t border-gray-100 pt-6">
           <h2 className="text-base font-semibold text-gray-800 mb-1">推荐学习路径</h2>
@@ -166,6 +224,7 @@ export default function JobDetail() {
           </div>
         </section>
       )}
+      </>)}
 
       {/* 关联内容 */}
       {courseItems.length > 0 && (
