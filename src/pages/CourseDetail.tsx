@@ -72,6 +72,14 @@ export default function CourseDetail() {
         </div>
       )}
 
+      {/* 简短导读 */}
+      {course.overview && (
+        <section className="mt-6 bg-blue-50 border border-blue-100 rounded-lg p-4">
+          <h2 className="text-sm font-semibold text-blue-800 mb-1">课程导读</h2>
+          <p className="text-sm text-blue-700">{course.overview}</p>
+        </section>
+      )}
+
       {course.interviewQuestions && course.interviewQuestions.length > 0 && (
         <QuestionList title="常见面试问题" items={course.interviewQuestions} />
       )}
@@ -181,6 +189,47 @@ export default function CourseDetail() {
                 </span>
                 <span className="text-sm text-gray-700">{r.title}</span>
               </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {course.externalResources && course.externalResources.length > 0 && (
+        <section className="mt-8 border-t border-gray-100 pt-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-1">外部学习资源</h2>
+          <p className="text-xs text-gray-400 mb-3">来自 The Odin Project、freeCodeCamp、Codecademy、MDN 等平台的真实课程与练习</p>
+          <div className="space-y-2">
+            {course.externalResources.map((r, i) => (
+              <a
+                key={i}
+                href={r.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-white border border-gray-200 rounded-lg p-3 hover:border-blue-300 hover:shadow-sm transition-colors"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className="text-sm font-medium text-blue-700 truncate">{r.title}</span>
+                      {r.isRequired && (
+                        <span className="text-xs px-1.5 py-0.5 rounded bg-red-50 text-red-500 border border-red-100 shrink-0">必修</span>
+                      )}
+                      {!r.isRequired && (
+                        <span className="text-xs px-1.5 py-0.5 rounded bg-gray-50 text-gray-400 border border-gray-100 shrink-0">选修</span>
+                      )}
+                    </div>
+                    {r.note && (
+                      <p className="text-xs text-gray-500 mb-1">{r.note}</p>
+                    )}
+                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                      <span className="bg-gray-100 px-1.5 py-0.5 rounded">{r.source}</span>
+                      <span>{r.type === 'course' ? '课程' : r.type === 'tutorial' ? '教程' : r.type === 'exercise' ? '练习' : r.type === 'project' ? '项目' : r.type === 'tool' ? '工具' : '参考'}</span>
+                      {r.difficulty && <span>{r.difficulty}</span>}
+                    </div>
+                  </div>
+                  <span className="text-xs text-blue-400 shrink-0 mt-1">↗</span>
+                </div>
+              </a>
             ))}
           </div>
         </section>

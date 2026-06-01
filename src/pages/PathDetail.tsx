@@ -126,7 +126,12 @@ export default function PathDetail() {
                   </div>
                   <div className={`flex-1 ${i < path.learningStages!.length - 1 ? 'pb-4' : ''}`}>
                     <div className="bg-white border border-gray-200 rounded-lg p-4">
-                      <div className="text-sm font-semibold text-gray-800 mb-1">{ls.name}</div>
+                      <div className="text-sm font-semibold text-gray-800 mb-1">
+                        {ls.name}
+                        {ls.duration && (
+                          <span className="ml-2 text-xs font-normal text-gray-400">({ls.duration})</span>
+                        )}
+                      </div>
                       <p className="text-xs text-gray-500 mb-3">{ls.description}</p>
 
                       {/* 关联资源 */}
@@ -178,6 +183,43 @@ export default function PathDetail() {
                           ))}
                         </ul>
                       </div>
+
+                      {/* 外部学习资源 */}
+                      {ls.externalResources && ls.externalResources.length > 0 && (
+                        <div className="mt-3 pt-3 border-t border-gray-100">
+                          <span className="text-xs text-gray-400 font-medium mb-2 block">
+                            学什么 → 去哪里学 → 做什么练习 → 做什么项目 → 如何验收
+                          </span>
+                          <div className="space-y-1.5">
+                            {ls.externalResources.map((r, j) => (
+                              <a
+                                key={j}
+                                href={r.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-start gap-2 text-xs p-2 rounded-md bg-gray-50 hover:bg-blue-50 border border-gray-100 hover:border-blue-200 transition-colors"
+                              >
+                                <span className="shrink-0 mt-0.5">
+                                  {r.type === 'course' ? '📖' : r.type === 'tutorial' ? '📝' : r.type === 'exercise' ? '🏋' : r.type === 'project' ? '🔧' : '📚'}
+                                </span>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-1.5 flex-wrap">
+                                    <span className="font-medium text-gray-800 truncate">{r.title}</span>
+                                    {r.isRequired ? (
+                                      <span className="text-xs px-1 py-0 rounded bg-red-50 text-red-500 shrink-0">必修</span>
+                                    ) : (
+                                      <span className="text-xs px-1 py-0 rounded bg-gray-100 text-gray-400 shrink-0">选修</span>
+                                    )}
+                                  </div>
+                                  <span className="text-gray-400">{r.source}</span>
+                                  {r.note && <span className="text-gray-500 ml-1">— {r.note}</span>}
+                                </div>
+                                <span className="text-blue-400 shrink-0 mt-0.5">↗</span>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

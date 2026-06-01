@@ -1,3 +1,14 @@
+export interface ExternalResource {
+  source: string
+  title: string
+  url: string
+  type: 'course' | 'tutorial' | 'exercise' | 'project' | 'reference' | 'tool'
+  stage?: string
+  difficulty?: '入门' | '基础' | '进阶' | '高级'
+  isRequired?: boolean
+  note?: string
+}
+
 export interface Course {
   id: string
   title: string
@@ -9,7 +20,8 @@ export interface Course {
   relatedProjects: string[]
   relatedJobs: string[]
   interviewQuestions?: string[]
-  // 以下为可选学习内容字段，仅对已填充的课程展示
+  // 简短导读（替代原有大段 AI 章节）
+  overview?: string
   learningObjectives?: string[]
   prerequisites?: string[]
   chapters?: {
@@ -23,6 +35,7 @@ export interface Course {
     title: string
     type: '书籍' | '视频' | '文章' | '工具'
   }[]
+  externalResources?: ExternalResource[]
   learningTips?: string[]
 }
 
@@ -115,12 +128,14 @@ export interface LearningPath {
   // 以下为可选任务化学习内容字段
   learningStages?: {
     name: string
+    duration?: string
     description: string
     courseIds: string[]
     projectIds: string[]
     toolIds: string[]
     goals: string[]
     checklist: string[]
+    externalResources?: ExternalResource[]
   }[]
   finalOutcomes?: string[]
   portfolioProjects?: { title: string; description: string; techStack: string[] }[]
