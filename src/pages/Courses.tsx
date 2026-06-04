@@ -28,9 +28,11 @@ export default function Courses() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">课程知识库</h1>
-      <p className="text-gray-500 text-sm mb-4">计算机专业核心课程体系</p>
+    <div className="page-container py-8">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-slate-900 mb-1">课程知识库</h1>
+        <p className="text-sm text-slate-500">计算机专业核心课程体系</p>
+      </div>
 
       <SearchFilter
         keyword={keyword}
@@ -49,7 +51,9 @@ export default function Courses() {
       />
 
       {filtered.length === 0 ? (
-        <p className="text-gray-400 text-sm py-12 text-center">没有匹配的课程，试试调整筛选条件</p>
+        <div className="text-center py-16">
+          <p className="text-slate-400 text-sm">没有匹配的课程，试试调整筛选条件</p>
+        </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filtered.map((c) => {
@@ -61,35 +65,37 @@ export default function Courses() {
               <Link
                 to={`/courses/${c.id}`}
                 key={c.id}
-                className="block p-4 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
+                className="card-hover p-5 group"
               >
-                <div className="flex items-center gap-2 mb-1">
-                  <span className={`text-xs px-2 py-0.5 rounded ${DIFFICULTY_COLORS[c.difficulty]}`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`text-xs font-medium px-2 py-0.5 rounded ${DIFFICULTY_COLORS[c.difficulty]}`}>
                     {c.difficulty}
                   </span>
-                  <span className="text-xs text-gray-400">{c.category}</span>
+                  <span className="text-xs text-slate-400">{c.category}</span>
                 </div>
-                <h3 className="font-semibold text-gray-800">{c.title}</h3>
-                <p className="text-sm text-gray-500 mt-1">{c.description}</p>
-                <div className="flex flex-wrap gap-1 mt-2">
+                <h3 className="font-semibold text-slate-800 group-hover:text-brand-700 transition-colors">
+                  {c.title}
+                </h3>
+                <p className="text-sm text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">{c.description}</p>
+                <div className="flex flex-wrap gap-1 mt-3">
                   {c.tags.map((t) => (
-                    <span key={t} className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">{t}</span>
+                    <span key={t} className="tag">{t}</span>
                   ))}
                 </div>
                 {hasStats && (
-                  <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-gray-50">
+                  <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-slate-100">
                     {toolCount > 0 && (
-                      <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded">
+                      <span className="text-xs font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded">
                         {toolCount} 工具
                       </span>
                     )}
                     {projCount > 0 && (
-                      <span className="text-xs bg-purple-50 text-purple-600 px-2 py-0.5 rounded">
+                      <span className="text-xs font-medium bg-purple-50 text-purple-600 px-2 py-0.5 rounded">
                         {projCount} 项目
                       </span>
                     )}
                     {jobCount > 0 && (
-                      <span className="text-xs bg-orange-50 text-orange-600 px-2 py-0.5 rounded">
+                      <span className="text-xs font-medium bg-orange-50 text-orange-600 px-2 py-0.5 rounded">
                         {jobCount} 岗位
                       </span>
                     )}

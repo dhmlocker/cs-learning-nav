@@ -15,13 +15,13 @@ interface RelatedSectionProps {
 export default function RelatedSection({ title, items, className = 'mt-4' }: RelatedSectionProps) {
   return (
     <section className={className}>
-      <h2 className="text-base font-semibold text-gray-800 mb-3">{title}</h2>
+      <h2 className="text-sm font-semibold text-slate-700 mb-3">{title}</h2>
       <div className="flex flex-wrap gap-2">
         {items.map((item) => (
           <Link
             key={item.id}
             to={item.to}
-            className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-600 hover:border-blue-300 hover:text-blue-600 transition-colors"
+            className="inline-flex items-center px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-600 hover:border-brand-300 hover:text-brand-600 hover:bg-brand-50/50 transition-colors"
           >
             {item.label}
           </Link>

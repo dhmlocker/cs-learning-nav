@@ -28,9 +28,11 @@ export default function Projects() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">项目库</h1>
-      <p className="text-gray-500 text-sm mb-4">选择一个项目开始学习，以项目任务反推具体知识点</p>
+    <div className="page-container py-8">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-slate-900 mb-1">项目库</h1>
+        <p className="text-sm text-slate-500">选择一个项目开始学习，以项目任务反推具体知识点</p>
+      </div>
 
       <SearchFilter
         keyword={keyword}
@@ -49,29 +51,33 @@ export default function Projects() {
       />
 
       {filtered.length === 0 ? (
-        <p className="text-gray-400 text-sm py-12 text-center">没有匹配的项目，试试调整筛选条件</p>
+        <div className="text-center py-16">
+          <p className="text-slate-400 text-sm">没有匹配的项目，试试调整筛选条件</p>
+        </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filtered.map((p) => (
             <Link
               to={`/projects/${p.id}`}
               key={p.id}
-              className="block p-4 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
+              className="card-hover p-5 group"
             >
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs text-gray-400">{p.category}</span>
-                <span className={`text-xs px-2 py-0.5 rounded ${DIFFICULTY_COLORS[p.difficulty]}`}>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs text-slate-400">{p.category}</span>
+                <span className={`text-xs font-medium px-2 py-0.5 rounded ${DIFFICULTY_COLORS[p.difficulty]}`}>
                   {p.difficulty}
                 </span>
                 {p.taskFlow && p.taskFlow.length > 0 && (
-                  <span className="text-xs px-1.5 py-0.5 rounded bg-blue-50 text-blue-600 border border-blue-100">图谱</span>
+                  <span className="text-xs font-medium px-1.5 py-0.5 rounded bg-blue-50 text-blue-600">图谱</span>
                 )}
               </div>
-              <h3 className="font-semibold text-gray-800">{p.title}</h3>
-              <p className="text-sm text-gray-500 mt-1">{p.description}</p>
-              <div className="flex flex-wrap gap-1 mt-2">
+              <h3 className="font-semibold text-slate-800 group-hover:text-brand-700 transition-colors">
+                {p.title}
+              </h3>
+              <p className="text-sm text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">{p.description}</p>
+              <div className="flex flex-wrap gap-1 mt-3">
                 {p.tags.map((t) => (
-                  <span key={t} className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">{t}</span>
+                  <span key={t} className="tag">{t}</span>
                 ))}
               </div>
             </Link>

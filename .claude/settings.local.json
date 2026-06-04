@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(npx vite:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "WebFetch(domain:cs-learning-nav.vercel.app)",
+      "Bash(curl -s -L --max-time 30 \"https://cs-learning-nav.vercel.app/\")",
+      "Bash(npx tsx:*)",
+      "Bash(node -e \"const https = require\\(''https''\\); https.get\\(''https://cs-learning-nav.vercel.app/'', \\(res\\) => { let d=''''; res.on\\(''data'',c=>d+=c\\); res.on\\(''end'',\\(\\)=>console.log\\(d.substring\\(0,3000\\)\\)\\); }\\).on\\(''error'',e=>console.log\\(''Error:'',e.message\\)\\);\")",
+      "Bash(npm run:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)"
     ]
   }
 }

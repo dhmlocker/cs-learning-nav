@@ -37,17 +37,22 @@ export default function Search() {
   const showTabs = keyword.trim() !== ''
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-xl font-bold text-gray-900 mb-4">全站搜索</h1>
+    <div className="content-container py-8">
+      <h1 className="text-xl font-bold text-slate-900 mb-5">全站搜索</h1>
 
-      <input
-        type="text"
-        placeholder="搜索课程、工具、项目、岗位、学习路径…"
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
-        autoFocus
-      />
+      <div className="relative mb-5">
+        <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        </svg>
+        <input
+          type="text"
+          placeholder="搜索课程、工具、项目、岗位、学习路径…"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm bg-white shadow-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-shadow"
+          autoFocus
+        />
+      </div>
 
       {showTabs && (
         <div className="flex flex-wrap gap-1.5 mb-6">
@@ -55,39 +60,45 @@ export default function Search() {
             <button
               key={tab.key}
               onClick={() => setFilter(tab.key)}
-              className={`px-3 py-1 text-xs rounded-full transition-colors ${
+              className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors duration-200 ${
                 filter === tab.key
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                  ? 'bg-brand-600 text-white shadow-sm'
+                  : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
               }`}
             >
               {tab.label}
-              <span className="ml-1 opacity-70">({typeCounts[tab.key]})</span>
+              <span className={`ml-1 ${filter === tab.key ? 'text-white/70' : 'text-slate-400'}`}>
+                ({typeCounts[tab.key]})
+              </span>
             </button>
           ))}
         </div>
       )}
 
       {!keyword.trim() && (
-        <p className="text-center text-gray-400 text-sm mt-12">
-          输入关键词搜索课程、工具、项目、岗位和学习路径
-        </p>
+        <div className="text-center text-slate-400 mt-16">
+          <svg className="w-12 h-12 mx-auto mb-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+          </svg>
+          <p className="text-sm">输入关键词搜索课程、工具、项目、岗位和学习路径</p>
+        </div>
       )}
 
       {keyword.trim() && !hasResults && (
-        <p className="text-center text-gray-400 text-sm mt-12">
-          未找到与 "{keyword}" 相关的结果
-        </p>
+        <div className="text-center text-slate-400 mt-16">
+          <p className="text-sm">未找到与 "{keyword}" 相关的结果</p>
+          <p className="text-xs mt-1 text-slate-300">试试其他关键词</p>
+        </div>
       )}
 
       {keyword.trim() && hasResults && filter !== 'all' && results[filter].length === 0 && (
-        <p className="text-center text-gray-400 text-sm mt-12">
+        <p className="text-center text-slate-400 text-sm mt-12">
           {GROUP_LABELS[filter]} 分类暂无匹配结果
         </p>
       )}
 
       {hasResults && (
-        <div className="space-y-6">
+        <div className="space-y-8">
           {GROUP_ORDER.map((group) => {
             if (filter !== 'all' && filter !== group) return null
             const items = results[group]
@@ -111,7 +122,7 @@ function Highlight({ text, keyword }: { text: string; keyword: string }) {
     <>
       {parts.map((part, i) =>
         part.toLowerCase() === keyword.toLowerCase() ? (
-          <mark key={i} className="bg-yellow-100 text-gray-900 rounded-sm">{part}</mark>
+          <mark key={i} className="bg-amber-100 text-amber-900 rounded-sm px-0.5">{part}</mark>
         ) : (
           <Fragment key={i}>{part}</Fragment>
         )
@@ -123,34 +134,34 @@ function Highlight({ text, keyword }: { text: string; keyword: string }) {
 function ResultGroup({ group, items, keyword }: { group: string; items: SearchResult[]; keyword: string }) {
   return (
     <section>
-      <h2 className="text-sm font-semibold text-gray-700 mb-2">
+      <h2 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
         {GROUP_LABELS[group]}
-        <span className="ml-1 text-xs text-gray-400 font-normal">({items.length})</span>
+        <span className="text-xs text-slate-400 font-normal">({items.length})</span>
       </h2>
       <div className="space-y-2">
         {items.map((item) => (
           <Link
             key={`${group}-${item.id}`}
             to={item.to}
-            className="block p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-sm transition-all"
+            className="block p-3.5 card-hover"
           >
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-sm font-medium text-blue-600">
+              <span className="text-sm font-medium text-brand-700">
                 <Highlight text={item.title} keyword={keyword} />
               </span>
               {item.category && (
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-slate-400">
                   <Highlight text={item.category} keyword={keyword} />
                 </span>
               )}
             </div>
-            <p className="text-xs text-gray-500 line-clamp-2">
+            <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
               <Highlight text={item.description} keyword={keyword} />
             </p>
             {item.tags.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {item.tags.map((t) => (
-                  <span key={t} className="text-xs bg-gray-100 text-gray-400 px-1.5 py-0.5 rounded">
+                  <span key={t} className="tag">
                     <Highlight text={t} keyword={keyword} />
                   </span>
                 ))}

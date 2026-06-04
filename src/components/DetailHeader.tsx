@@ -19,22 +19,23 @@ export default function DetailHeader({
 }: DetailHeaderProps) {
   return (
     <>
-      <div className="pb-3 mb-6 border-b border-gray-100">
-        <Link to={returnTo} className="text-sm text-gray-500 hover:text-blue-600 transition-colors">
-          ← {returnLabel}
+      <div className="pb-4 mb-6 border-b border-slate-100">
+        <Link to={returnTo} className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-brand-600 transition-colors">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          {returnLabel}
         </Link>
       </div>
 
-      <div className="mt-2">
-        {badges}
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">{title}</h1>
-        <p className="text-gray-500">{description}</p>
+      <div>
+        {badges && <div className="mb-3">{badges}</div>}
+        <h1 className="text-2xl font-bold text-slate-900 mb-2">{title}</h1>
+        <p className="text-slate-500 leading-relaxed">{description}</p>
         {tags && tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-3">
+          <div className="flex flex-wrap gap-1.5 mt-3">
             {tags.map((t) => (
-              <span key={t} className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
-                {t}
-              </span>
+              <span key={t} className="tag">{t}</span>
             ))}
           </div>
         )}
